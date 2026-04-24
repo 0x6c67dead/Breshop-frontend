@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@theme {
+  /* Core palette - these generate bg-background, text-foreground etc */
+  --color-background: #F4F0EB;
+  --color-foreground: #16261A;
+
+  --color-tactile-bg: #F4F0EB;
+  --color-tactile-dark: #16261A;
+  --color-tactile-light: #F2EFEB;
+  --color-accent-orange: #FF5A36;
+  --color-accent-lime: #DFFF00;
+
+  /* Typography (mapped via global layout) */
+  --font-serif: var(--font-playfair);
+  --font-sans: var(--font-grotesk);
+
+  /* Shadows for brutalism */
+  --shadow-hard: 4px 4px 0px var(--color-tactile-dark);
+  --shadow-hard-lg: 8px 8px 0px var(--color-tactile-dark);
+
+  /* Radius overrides for extremismo */
+  --radius-sharp: 0px;
+  --radius-pill: 9999px;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans), sans-serif;
+  /* Grain texture subtle effect for tactile feel */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E");
+}
+
+button{
+  cursor: pointer;
+}
+
+/* Custom Tactical Utils (Tailwind v4 allows direct @utility or standard classes) */
+.hard-shadow {
+  box-shadow: var(--shadow-hard);
+  border: 1.5px solid var(--color-tactile-dark);
+}
+
+.hard-shadow-lg {
+  box-shadow: var(--shadow-hard-lg);
+  border: 2px solid var(--color-tactile-dark);
+}
+
+.tag-pill {
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
