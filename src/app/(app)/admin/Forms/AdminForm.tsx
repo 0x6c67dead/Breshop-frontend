@@ -1,99 +1,47 @@
 'use client'
 
 import { useState } from "react"
-
 import AdminNavInput from "../AdminNavInput"
-
 import AddressForm from "./AddressForm";
 import BrechoForm from "./BrechoForm";
 import ProdutoForm from "./ProdutoForm";
 import TagForm from "./TagForm";
 import UserForm from "./UserForm";
 
-
 export default function AdminForm(){
-    const [isUserFormOpen, setUserFormOpen] = useState(false)    
-    const [isBrechoFormOpen, setBrechoFormOpen] = useState(false)    
-    const [isProdutoFormOpen, setProdutoFormOpen] = useState(false)    
-    const [isTagFormOpen, setTagFormOpen] = useState(false)    
-    const [isAddressFormOpen, setAddressFormOpen] = useState(false)    
-    
-    function handleAddressFormOpen(){
-        setBrechoFormOpen(false)
-        setProdutoFormOpen(false)
-        setTagFormOpen(false)
-        setUserFormOpen(false)
-        setAddressFormOpen(true)
-    }
-    function handleBrechoFormOpen(){
-        setAddressFormOpen(false)
-        setProdutoFormOpen(false)
-        setTagFormOpen(false)
-        setUserFormOpen(false)
-        setBrechoFormOpen(true)
-    }
-    function handleProdutoFormOpen(){
-        setAddressFormOpen(false)
-        setBrechoFormOpen(false)
-        setTagFormOpen(false)
-        setUserFormOpen(false)
-        setProdutoFormOpen(true)
-    }
-    function handleTagFormOpen(){
-        setAddressFormOpen(false)
-        setBrechoFormOpen(false)
-        setProdutoFormOpen(false)
-        setUserFormOpen(false)
-        setTagFormOpen(true)
-    }
-    function handleUserFormOpen(){
-        setAddressFormOpen(false)
-        setBrechoFormOpen(false)
-        setProdutoFormOpen(false)
-        setTagFormOpen(false)
-        setUserFormOpen(true)
-    }
+    const [activeTab, setActiveTab] = useState<'user' | 'brecho' | 'produto' | 'tag' | 'address'>('user');
     
     return( 
-        <>
-            <nav className="absolute flex justify-center top-30 left-1/2 -translate-1/2 w-full gap-10">
-                <button onClick={handleUserFormOpen}>
-                    <AdminNavInput grupo="form">User</AdminNavInput>
+        <div className="flex flex-col gap-8">
+            <nav className="flex flex-wrap gap-4 border-b-2 border-foreground/10 pb-6">
+                <button onClick={() => setActiveTab('user')}>
+                    <AdminNavInput grupo="form">USER</AdminNavInput>
                 </button>
                     
-                <button onClick={handleBrechoFormOpen}>
-                    <AdminNavInput grupo="form">Brecho</AdminNavInput>
+                <button onClick={() => setActiveTab('brecho')}>
+                    <AdminNavInput grupo="form">BRECHO</AdminNavInput>
                 </button>
                     
-                <button onClick={handleProdutoFormOpen}>
-                    <AdminNavInput grupo="form">Produto</AdminNavInput>
+                <button onClick={() => setActiveTab('produto')}>
+                    <AdminNavInput grupo="form">PRODUTO</AdminNavInput>
                 </button>
                     
-                <button onClick={handleTagFormOpen}>
-                    <AdminNavInput grupo="form">Tag</AdminNavInput>
+                <button onClick={() => setActiveTab('tag')}>
+                    <AdminNavInput grupo="form">TAG</AdminNavInput>
                 </button>
                     
-                <button onClick={handleAddressFormOpen}>
-                    <AdminNavInput grupo="form">Address</AdminNavInput>
+                <button onClick={() => setActiveTab('address')}>
+                    <AdminNavInput grupo="form">ADDRESS</AdminNavInput>
                 </button>
             </nav>
-            <main className="pt-22 w-2/4">
-                {isAddressFormOpen && (
-                    <AddressForm />
-                )}
-                {isBrechoFormOpen && (
-                    <BrechoForm />
-                )}
-                {isProdutoFormOpen && (
-                    <ProdutoForm />
-                )}
-                {isTagFormOpen && (
-                    <TagForm />
-                )}
-                {isUserFormOpen && (
-                    <UserForm />
-                )}
+
+            <main className="w-full">
+                {activeTab === 'address' && <AddressForm />}
+                {activeTab === 'brecho' && <BrechoForm />}
+                {activeTab === 'produto' && <ProdutoForm />}
+                {activeTab === 'tag' && <TagForm />}
+                {activeTab === 'user' && <UserForm />}
             </main>
-        </>
+        </div>
     )
 }

@@ -1,71 +1,82 @@
 "use client";
 
-import Link from 'next/link';
-import { useToast } from "@/src/shared/components/ui/Toast";
+import { useMarketplaceStore, UserRole } from "@/src/shared/lib/store/marketplaceStore";
+import { useRouter } from "next/navigation";
+import { ShieldCheck, Store, User as UserIcon, ArrowRight } from "lucide-react";
 
 export default function LoginPage() {
-    const { showToast } = useToast();
+  const { login, user } = useMarketplaceStore();
+  const router = useRouter();
 
-    return (
-        <div className="flex flex-col w-full gap-8">
-            <div>
-                <h1 className="text-4xl font-serif font-black uppercase mb-2">Welcome Back.</h1>
-                <p className="text-foreground/70">Acesse sua conta para continuar garimpando.</p>
-            </div>
+  const handleLogin = (role: UserRole) => {
+    login(role);
+    router.push("/");
+  };
 
-            <form 
-                className="flex flex-col gap-6"
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    showToast("Login em breve!");
-                }}
-            >
-                <div className="flex flex-col gap-2">
-                    <label className="text-sm font-bold uppercase tracking-wider" htmlFor="userEmail">
-                        E-mail
-                    </label>
-                    <input 
-                        type="email" 
-                        id="userEmail"
-                        name="email"
-                        placeholder="seu@email.com"
-                        className="w-full bg-tactile-bg border-[1.5px] border-foreground px-4 py-3 placeholder:text-foreground/40 focus:outline-none focus:border-accent-orange focus:ring-1 focus:ring-accent-orange transition-all"
-                        required
-                    />
-                </div>
-
-                <div className="flex flex-col gap-2">
-                    <div className="flex justify-between items-center">
-                        <label className="text-sm font-bold uppercase tracking-wider" htmlFor="userPassword">
-                            Senha
-                        </label>
-                        <Link href="/forgot-password" className="text-xs font-bold text-foreground/60 hover:text-accent-orange uppercase tracking-wider">
-                            Esqueceu?
-                        </Link>
-                    </div>
-                    <input 
-                        type="password" 
-                        id="userPassword"
-                        name="password"
-                        placeholder="••••••••"
-                        className="w-full bg-tactile-bg border-[1.5px] border-foreground px-4 py-3 placeholder:text-foreground/40 focus:outline-none focus:border-accent-orange focus:ring-1 focus:ring-accent-orange transition-all"
-                        required
-                    />
-                </div>
-
-                <button 
-                    type="submit"
-                    className="w-full tag-pill bg-foreground text-tactile-light border-[2px] border-foreground hover:bg-accent-orange hover:text-tactile-dark hard-shadow mt-4 py-4 text-base"
-                >
-                    Entrar
-                </button>
-            </form>
-
-            <div className="text-center mt-4">
-                <p className="text-sm opacity-80">
-                    Não tem uma conta? <Link href="/register" className="font-bold underline hover:text-accent-orange decoration-[1.5px]">Criar conta</Link>
-                </p>
-            </div>
+  return (
+    <main className="w-full min-h-screen bg-[#F4F0EB] flex items-center justify-center p-4">
+      <div className="w-full max-w-md bg-white rounded-[40px] p-10 shadow-2xl border border-foreground/5 flex flex-col gap-10">
+        <div className="text-center">
+            <h1 className="text-4xl font-serif font-black italic tracking-tighter uppercase mb-2">Breshop.</h1>
+            <p className="font-mono text-[10px] font-black uppercase tracking-widest text-foreground/40">Selecione seu perfil de acesso</p>
         </div>
-    );
+
+        <div className="flex flex-col gap-4">
+            <button 
+                onClick={() => handleLogin('ADMIN')}
+                className="group flex items-center justify-between p-6 bg-[#F4F0EB]/50 rounded-[24px] border border-transparent hover:border-foreground/10 hover:bg-white transition-all"
+            >
+                <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-foreground text-background flex items-center justify-center">
+                        <ShieldCheck size={20} />
+                    </div>
+                    <div className="flex flex-col items-start">
+                        <span className="font-serif font-black text-lg italic uppercase tracking-tighter">Administrador</span>
+                        <span className="text-[9px] font-bold uppercase text-foreground/40">Gestão Global da Rede</span>
+                    </div>
+                </div>
+                <ArrowRight size={16} className="text-foreground/20 group-hover:translate-x-1 transition-transform" />
+            </button>
+
+            <button 
+                onClick={() => handleLogin('OWNER')}
+                className="group flex items-center justify-between p-6 bg-[#F4F0EB]/50 rounded-[24px] border border-transparent hover:border-foreground/10 hover:bg-white transition-all"
+            >
+                <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-foreground text-background flex items-center justify-center">
+                        <Store size={20} />
+                    </div>
+                    <div className="flex flex-col items-start">
+                        <span className="font-serif font-black text-lg italic uppercase tracking-tighter">Dono de Brechó</span>
+                        <span className="text-[9px] font-bold uppercase text-foreground/40">Gestão de Peças e Vendas</span>
+                    </div>
+                </div>
+                <ArrowRight size={16} className="text-foreground/20 group-hover:translate-x-1 transition-transform" />
+            </button>
+
+            <button 
+                onClick={() => handleLogin('USER')}
+                className="group flex items-center justify-between p-6 bg-[#F4F0EB]/50 rounded-[24px] border border-transparent hover:border-foreground/10 hover:bg-white transition-all"
+            >
+                <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-foreground text-background flex items-center justify-center">
+                        <UserIcon size={20} />
+                    </div>
+                    <div className="flex flex-col items-start">
+                        <span className="font-serif font-black text-lg italic uppercase tracking-tighter">Garimpeiro</span>
+                        <span className="text-[9px] font-bold uppercase text-foreground/40">Comprar e Favoritar Peças</span>
+                    </div>
+                </div>
+                <ArrowRight size={16} className="text-foreground/20 group-hover:translate-x-1 transition-transform" />
+            </button>
+        </div>
+
+        {user && (
+            <div className="text-center pt-4 border-t border-foreground/5">
+                <p className="font-mono text-[10px] text-foreground/40 uppercase">Logado como: <span className="text-foreground font-black">{user.name}</span></p>
+            </div>
+        )}
+      </div>
+    </main>
+  );
 }

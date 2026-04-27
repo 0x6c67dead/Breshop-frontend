@@ -1,123 +1,76 @@
 'use client'
 import { Tag } from "@/src/shared/types/Tag";
 import { useEffect, useState } from "react";
-
-
+import { Hash, Trash2, Edit3 } from "lucide-react";
 
 export default function TagList() {
     const [nome, setNome] = useState('')
-    const [atualizando, setAtualizando] = useState(false)
+    const [atualizando, setAtualizando] = useState<number | null>(null)
+    const [tags, setTags] = useState<Tag[]>([
+        { id: 1, name: "vintage" },
+        { id: 2, name: "archive" },
+        { id: 3, name: "streetwear" },
+        { id: 4, name: "luxury" }
+    ]);
 
     function atualizarTag(pk: number, e: React.FormEvent) {
         e.preventDefault()
-        fetch(`http://localhost:8000/tags/${pk}/`, {
-            method: "PUT",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify({ name: nome })
-        })
-            .then(async response => {
-                const status = response.status
-                const json = await response.json()
-                return { status: status, json: json }
-            })
-            .then(({ status, json }) => {
-                console.log("JSON: ", json)
-                console.log("status: ", status)
-            })
-            .catch(error => console.log(error)
-            )
+        setTags(prev => prev.map(t => t.id === pk ? { ...t, name: nome || t.name } : t))
+        setAtualizando(null)
     }
+
     function deleteTag(pk: number) {
-        fetch(`http://localhost:8000/tags/${pk}/`, {
-            method: "DELETE"
-        })
-            .then(res => {
-                if (!res.ok) throw new Error("Tag não encontrada");
-                return res.json()
-            })
-            .then(data => {
-                setTags(prev => prev.filter(tag => tag.id !== pk))
-            })
-            .catch(error => console.log(error));
+        setTags(prev => prev.filter(tag => tag.id !== pk))
     }
-
-    const [tags, setTags] = useState<Tag[]>([]);
-
-    useEffect(() => {
-        fetch("http://localhost:8000/tags/")
-            .then((res) => res.json())
-            .then((data) => setTags(data))
-            .catch((error) => console.error(error))
-    }, [])
-
 
     const Form = (pk: number, name: string) => {
-
         return (
-
-            <form method={"PUT"} onSubmit={(e) => atualizarTag(pk, e)}>
-                <div className="space-y-12 mt-5">
-                    <div className="pb-12">
-                        <h2 className="text-white text-xl font-bold">Atualizar Tag</h2>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-6 mt-8 gap-x-6 gap-y-8">
-                            <div className="sm:col-span-3">
-                                <label htmlFor="nome" className="block text-white">Nome</label>
-                                <input type="text" name="nome" id="nome" placeholder={name}
-                                    required
-                                    onChange={(e) => setNome(e.target.value)}
-                                    className="block w-full rounded-md mt-2 px-2 py-1 outline-white/20 -outline-offset-1 outline-1 bg-white/5"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex flex-row-reverse gap-x-2 px-2 py-1">
-                        <div>
-                            <input type="submit" value='Enviar' id="submit" name="submit" className="px-2 py-1 rounded-md bg-sky-600 font-bold cursor-pointer" />
-                        </div>
-                        <div>
-                            <input type="reset" value='cancelar' id="reset" name="reset" formMethod="post"
-                                onClick={() => setNome('')}
-                                className="px-2 py-1 rounded-md bg-transparent font-bold cursor-pointer" />
-                        </div>
-                    </div>
+            <form method={"PUT"} onSubmit={(e) => atualizarTag(pk, e)} className="mt-6 p-6 bg-white/80 rounded-[24px] border border-foreground/10 shadow-inner flex gap-4 items-end">
+                <div className="flex flex-col gap-2 flex-1">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-foreground px-2">Nome da Tag</label>
+                    <input type="text" placeholder={name} onChange={(e) => setNome(e.target.value)}
+                        className="w-full bg-white rounded-2xl px-6 py-3 border border-foreground/20 focus:outline-none focus:border-foreground transition-all text-foreground font-bold" />
+                </div>
+                <div className="flex gap-2">
+                    <button type="submit" className="bg-foreground text-background px-8 py-3 rounded-full font-black uppercase text-[10px] tracking-widest hover:opacity-80 transition-all">
+                        Salvar
+                    </button>
+                    <button type="button" onClick={() => setAtualizando(null)} className="px-8 py-3 rounded-full font-black uppercase text-[10px] tracking-widest border border-foreground/10 hover:bg-foreground/5 transition-all text-foreground">
+                        Cancelar
+                    </button>
                 </div>
             </form>
         )
     }
 
-    const tagView = (tag: Tag) => {
-        return (
-            <div key={tag.id} className="flex flex-col justify-between outline-white/20 outline-1 outline-offset-2 px-4 py-3 rounded-md bg-gray-800">
-                <div className="flex justify-between">
-                    <div className="flex gap-10">
-                        <p>Id: {tag.id}</p>
-                        <p>Name: {tag.name}</p>
-                    </div>
-                    <div className="flex justify-center items-center gap-5">
-                        <button onClick={() => setAtualizando(!atualizando)} className="px-2 py-1 rounded-md bg-sky-600 font-bold text-sm">Atualizar</button>
-                        <button onClick={() => deleteTag(tag.id)} className="px-2 py-1 rounded-md bg-red-600 font-bold text-sm">Excluir</button>
-                    </div>
-                </div>
-                <div>
-                    {atualizando && (
-                        Form(tag.id, tag.name)
-                    )}
-                </div>
-            </div>
-        )
-    }
-
-
     return (
         <div className="space-y-12">
-            <h2 className="text-white text-xl font-bold">Tag list</h2>
+            <header>
+                <h2 className="text-4xl font-serif font-black italic tracking-tighter uppercase text-foreground">Tags.</h2>
+                <p className="text-[10px] font-black uppercase tracking-widest text-foreground/60 mt-2">Categorias e taxonomias do sistema</p>
+            </header>
 
-            <div className="flex flex-col gap-10">
-                {tags.map((tag: any) => (
-                    tagView(tag)
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {tags.map((tag: Tag) => (
+                    <div key={tag.id} className="group bg-white rounded-[32px] p-8 transition-all border border-foreground/10 hover:border-foreground/30 shadow-md hover:shadow-xl flex flex-col gap-4">
+                        <div className="flex justify-between items-center">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-xl bg-foreground/5 flex items-center justify-center text-foreground group-hover:bg-accent-orange group-hover:text-white transition-all">
+                                    <Hash size={20} />
+                                </div>
+                                <span className="font-serif font-black text-2xl italic tracking-tighter uppercase text-foreground">{tag.name}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <button onClick={() => setAtualizando(atualizando === tag.id ? null : tag.id)} className="w-10 h-10 rounded-full border border-foreground/10 flex items-center justify-center hover:bg-foreground hover:text-background transition-all text-foreground">
+                                    <Edit3 size={16} />
+                                </button>
+                                <button onClick={() => deleteTag(tag.id)} className="w-10 h-10 rounded-full border border-foreground/10 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all text-foreground">
+                                    <Trash2 size={16} />
+                                </button>
+                            </div>
+                        </div>
+                        {atualizando === tag.id && Form(tag.id, tag.name)}
+                    </div>
                 ))}
             </div>
         </div>

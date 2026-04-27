@@ -1,166 +1,109 @@
 import { Address } from "@/src/shared/types/Address"
 import { useEffect, useState } from "react"
+import { MapPin, Trash2, Edit3, Navigation, Building } from "lucide-react"
 
 export default function AddressList() {
-    const [atualizando, setAtualizando] = useState(false)
+    const [atualizando, setAtualizando] = useState<number | null>(null)
     const [cep, setCep] = useState('')
     const [state, setState] = useState('')
     const [city, setCity] = useState('')
     const [street, setStreet] = useState('')
     const [number, setNumber] = useState<number>(0)
-
+    const [addresses, setAddresses] = useState<Address[]>([
+        { id: 1, cep: "01310930", state: "SP", city: "São Paulo", street: "Avenida Paulista", number: 1578 },
+        { id: 2, cep: "22041001", state: "RJ", city: "Rio de Janeiro", street: "Rua Figueiredo de Magalhães", number: 598 }
+    ])
 
     function atualizarEndereco(pk: number, e: React.FormEvent) {
         e.preventDefault()
-        fetch(`http://localhost:8000/addresses/${pk}/`, {
-            method: "PUT",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify({
-                cep: cep,
-                state: state,
-                city: city,
-                street: street,
-                number: number,
-            })
-        })
-            .then(async response => {
-                const status = response.status
-                const json = await response.json()
-                return { status: status, json: json }
-            })
-            .then(({ status, json }) => {
-                console.log("JSON: ", json)
-                console.log("status: ", status)
-            })
-            .catch(error => console.log(error)
-            )
+        setAddresses(prev => prev.map(a => a.id === pk ? { ...a, cep: cep || a.cep, state: state || a.state, city: city || a.city, street: street || a.street, number: number || a.number } : a))
+        setAtualizando(null)
     }
 
     function deleteAddress(pk: number) {
-        fetch(`http://localhost:8000/addresses/${pk}/`, {
-            method: "DELETE"
-        })
-            .then(res => {
-                if (!res.ok) throw new Error("Address não encontrada");
-                return res.json()
-            })
-            .then(data => {
-                setAddresses(prev => prev.filter(address => address.id !== pk))
-            })
-            .catch(error => console.log(error));
+        setAddresses(prev => prev.filter(address => address.id !== pk))
     }
-
-
-    const [addresses, setAddresses] = useState<Address[]>([])
-
-    useEffect(() => {
-        fetch('http://localhost:8000/addresses')
-            .then(response => response.json())
-            .then(data => setAddresses(data))
-            .catch(erro => console.log(erro))
-    }, [])
-
 
     const Form = (pk: number, oldCep: string, oldState: string, oldCity: string, oldStreet: string, oldNumber: number) => {
         return (
-            <form method="PUT" onSubmit={(e) => atualizarEndereco(pk, e)}>
-                <div className="space-y-12 mt-5">
-                    <div className="border-b border-white/20 pb-12">
-                        <h2 className="text-white text-xl font-bold">Endereço</h2>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-6 mt-8 gap-x-6 gap-y-8">
-                            <div className="sm:col-span-3">
-                                <label htmlFor="cep" className="block text-white">CEP</label>
-                                <input type="tel" name="cep" id="cep" inputMode="tel" maxLength={8} pattern="[0-9]{8}"
-                                    placeholder={oldCep}
-                                    required
-                                    onChange={(e) => setCep(e.target.value)}
-                                    className="block w-full rounded-md mt-2 px-2 py-1 outline-white/20 -outline-offset-1 outline-1 bg-white/5" />
-                            </div>
-
-                            <div className="sm:col-span-3">
-                                <label htmlFor="estado" className="block text-white">Estado</label>
-                                <input type="text" name="estado" id="estado"
-                                    placeholder={oldState}
-                                    required
-                                    onChange={(e) => setState(e.target.value)}
-                                    className="block w-full rounded-md mt-2 px-2 py-1 outline-white/20 -outline-offset-1 outline-1 bg-white/5" />
-                            </div>
-
-                            <div className="sm:col-span-3">
-                                <label htmlFor="cidade" className="block text-white">Cidade</label>
-                                <input type="text" name="cidade" id="cidade"
-                                    placeholder={oldCity}
-                                    required
-                                    onChange={(e) => setCity(e.target.value)}
-                                    className="block w-full rounded-md mt-2 px-2 py-1 outline-white/20 -outline-offset-1 outline-1 bg-white/5" />
-                            </div>
-
-                            <div className="sm:col-span-6">
-                                <label htmlFor="logradouro" className="block text-white">Logradouro</label>
-                                <input type="text" name="logradouro" id="logradouro"
-                                    placeholder={oldStreet}
-                                    required
-                                    onChange={(e) => setStreet(e.target.value)}
-                                    className="block w-full rounded-md mt-2 px-2 py-1 outline-white/20 -outline-offset-1 outline-1 bg-white/5" />
-                            </div>
-
-                            <div className="sm:col-span-2">
-                                <label htmlFor="numero" className="block text-white">Numero</label>
-                                <input type="number" inputMode="numeric" name="numero" id="numero"
-                                    placeholder={oldNumber.toString()}
-                                    required
-                                    onChange={(e) => setNumber(e.target.valueAsNumber)}
-                                    className="[appearance:textfield] block w-full rounded-md mt-2 px-2 py-1 outline-white/20 -outline-offset-1 outline-1 bg-white/5" />
-                            </div>
-                        </div>
+            <form method="PUT" onSubmit={(e) => atualizarEndereco(pk, e)} className="mt-8 p-8 bg-white/80 rounded-[30px] border border-foreground/10 shadow-inner">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                    <div className="flex flex-col gap-2">
+                        <label className="text-[10px] font-black uppercase tracking-widest text-foreground px-2">CEP</label>
+                        <input type="text" placeholder={oldCep} onChange={(e) => setCep(e.target.value)}
+                            className="w-full bg-white rounded-2xl px-6 py-4 border border-foreground/20 focus:outline-none focus:border-foreground transition-all text-foreground font-bold shadow-sm" />
                     </div>
-                    <div className="flex flex-row-reverse gap-x-2 px-2 py-1">
-                        <div>
-                            <input type="submit" value='Enviar' id="submit" name="submit" className="px-2 py-1 rounded-md bg-sky-600 font-bold cursor-pointer" />
-                        </div>
-                        <div>
-                            <input type="reset" value='cancelar' id="reset" name="reset" className="px-2 py-1 rounded-md bg-transparent font-bold cursor-pointer" />
-                        </div>
+                    <div className="flex flex-col gap-2">
+                        <label className="text-[10px] font-black uppercase tracking-widest text-foreground px-2">Estado</label>
+                        <input type="text" placeholder={oldState} onChange={(e) => setState(e.target.value)}
+                            className="w-full bg-white rounded-2xl px-6 py-4 border border-foreground/20 focus:outline-none focus:border-foreground transition-all text-foreground font-bold shadow-sm" />
                     </div>
+                    <div className="flex flex-col gap-2">
+                        <label className="text-[10px] font-black uppercase tracking-widest text-foreground px-2">Cidade</label>
+                        <input type="text" placeholder={oldCity} onChange={(e) => setCity(e.target.value)}
+                            className="w-full bg-white rounded-2xl px-6 py-4 border border-foreground/20 focus:outline-none focus:border-foreground transition-all text-foreground font-bold shadow-sm" />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <label className="text-[10px] font-black uppercase tracking-widest text-foreground px-2">Logradouro</label>
+                        <input type="text" placeholder={oldStreet} onChange={(e) => setStreet(e.target.value)}
+                            className="w-full bg-white rounded-2xl px-6 py-4 border border-foreground/20 focus:outline-none focus:border-foreground transition-all text-foreground font-bold shadow-sm" />
+                    </div>
+                </div>
+                <div className="flex gap-4 mt-8">
+                    <button type="submit" className="bg-foreground text-background px-10 py-4 rounded-full font-black uppercase text-[10px] tracking-widest hover:opacity-80 transition-all shadow-lg">
+                        Salvar Alterações
+                    </button>
+                    <button type="button" onClick={() => setAtualizando(null)} className="px-10 py-4 rounded-full font-black uppercase text-[10px] tracking-widest border-2 border-foreground/20 text-foreground hover:bg-foreground hover:text-background transition-all">
+                        Cancelar
+                    </button>
                 </div>
             </form>
         )
     }
 
-    const AddressView = (address: Address) => {
-        return (
-            <div key={address.id} className="flex justify-between outline-white/20 outline-1 outline-offset-2 px-4 py-3 rounded-md bg-gray-800">
-                <div className="flex flex-col w-full">
-                    <div className="flex justify-between">
-                        <div className="flex gap-10">
-                            <p>Id: {address.id}</p>
-                            <p>Estado: {address.state}</p>
-                            <p>Cidade: {address.city}</p>
-                        </div>
-                        <div className="flex justify-center items-center gap-5">
-                            <button onClick={() => setAtualizando(!atualizando)} className="px-2 py-1 rounded-md bg-sky-600 font-bold text-sm">Atualizar</button>
-                            <button onClick={() => deleteAddress(address.id)} className="px-2 py-1 rounded-md bg-red-600 font-bold text-sm">Excluir</button>
-                        </div>
-                    </div>
-                    {atualizando && (
-                        Form(address.id, address.cep, address.state, address.city, address.street, address.number)
-                    )}
-                </div>
-            </div>
-        )
-    }
-
-
     return (
         <div className="space-y-12">
-            <h2 className="text-white text-xl font-bold">Endereço list</h2>
+            <header>
+                <h2 className="text-4xl font-serif font-black italic tracking-tighter uppercase text-foreground">Endereços.</h2>
+                <p className="text-[10px] font-black uppercase tracking-widest text-foreground/60 mt-2">Logística e localizações da rede</p>
+            </header>
 
-            <div className="flex flex-col gap-10">
-                {addresses.map((address: any) => (
-                    AddressView(address)
+            <div className="grid grid-cols-1 gap-6">
+                {addresses.map((address: Address) => (
+                    <div key={address.id} className="group bg-white rounded-[32px] p-8 transition-all border border-foreground/10 hover:border-foreground/30 shadow-md hover:shadow-xl">
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+                            <div className="flex items-center gap-6">
+                                <div className="w-16 h-16 rounded-2xl bg-foreground/5 flex items-center justify-center text-foreground group-hover:bg-accent-orange transition-all">
+                                    <MapPin size={24} />
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="font-serif font-black text-2xl italic tracking-tighter uppercase text-foreground">{address.street}, {address.number}</span>
+                                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40">{address.city} — {address.state}</span>
+                                </div>
+                            </div>
+
+                            <div className="flex gap-8 flex-1 max-w-md justify-center">
+                                <div className="flex flex-col items-center gap-1 opacity-40 group-hover:opacity-100 transition-all">
+                                    <Navigation size={14} />
+                                    <span className="text-[10px] font-bold uppercase">{address.cep}</span>
+                                </div>
+                                <div className="flex flex-col items-center gap-1 opacity-40 group-hover:opacity-100 transition-all">
+                                    <Building size={14} />
+                                    <span className="text-[10px] font-bold uppercase">Sede</span>
+                                </div>
+                            </div>
+                            
+                            <div className="flex items-center gap-2">
+                                <button onClick={() => setAtualizando(atualizando === address.id ? null : address.id)} className="w-12 h-12 rounded-full border-2 border-foreground/10 flex items-center justify-center hover:bg-foreground hover:text-background transition-all text-foreground">
+                                    <Edit3 size={18} />
+                                </button>
+                                <button onClick={() => deleteAddress(address.id)} className="w-12 h-12 rounded-full border-2 border-foreground/10 flex items-center justify-center hover:bg-red-500 hover:text-white hover:border-red-500 transition-all text-foreground">
+                                    <Trash2 size={18} />
+                                </button>
+                            </div>
+                        </div>
+                        {atualizando === address.id && Form(address.id, address.cep, address.state, address.city, address.street, address.number)}
+                    </div>
                 ))}
             </div>
         </div>

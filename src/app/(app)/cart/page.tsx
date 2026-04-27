@@ -1,114 +1,154 @@
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useToast } from "@/src/shared/components/ui/Toast";
+import { ArrowLeft, Trash2, ShieldCheck, CreditCard } from "lucide-react";
 
 export default function CartPage() {
     const { showToast } = useToast();
     const MOCK_CART = [
-        { id: "ITEM-A", name: "Jaqueta de Couro Vintage", size: "M", price: 350.00, shop: "Acervo 90s" },
-        { id: "ITEM-B", name: "Óculos de Sol Retro", size: "ÚNICO", price: 120.00, shop: "Garimpo Solar" },
+        { id: "prod-1", name: "Jaqueta de Couro Vintage", size: "M", price: 350, brand: "PRADA", imageUrl: "https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=1000&auto=format&fit=crop" },
+        { id: "prod-4", name: "Óculos de Sol Retro", size: "ÚNICO", price: 120, brand: "GUCCI", imageUrl: "https://images.unsplash.com/photo-1511499767390-90342f16b147?q=80&w=1000&auto=format&fit=crop" },
     ];
 
     const subtotal = MOCK_CART.reduce((acc, item) => acc + item.price, 0);
     const shipping = 25.00;
-    const total = subtotal + shipping; // Ignoring promo code math for UI mockup
+    const total = subtotal + shipping;
 
     return (
-        <main className="w-full min-h-screen px-4 md:px-6 py-8 flex justify-center">
-            <div className="w-full max-w-5xl flex flex-col lg:flex-row gap-12">
+        <main className="w-full min-h-screen bg-[#F4F0EB] text-foreground px-4 md:px-12 py-12">
+            <div className="max-w-7xl mx-auto flex flex-col gap-12">
                 
-                {/* Left side: Items */}
-                <div className="w-full lg:w-3/5 flex flex-col gap-6">
-                    <div>
-                        <h1 className="text-4xl md:text-5xl font-serif font-black italic tracking-tighter uppercase">Shopping Bag.</h1>
-                        <p className="text-sm font-bold uppercase tracking-widest text-foreground/50 mt-2">{MOCK_CART.length} Itens</p>
+                {/* Header */}
+                <div className="flex flex-col md:flex-row justify-between items-end gap-6">
+                    <div className="flex flex-col">
+                        <Link href="/" className="group flex items-center gap-3 font-mono text-[10px] font-black uppercase tracking-widest text-foreground/50 hover:text-foreground transition-all mb-4">
+                            <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
+                            Continuar Garimpando
+                        </Link>
+                        <h1 className="text-6xl md:text-8xl font-serif font-black italic tracking-tighter uppercase leading-none">Your Bag.</h1>
                     </div>
+                    <div className="flex items-center gap-4 bg-white px-6 py-3 rounded-full border border-foreground/5 shadow-sm">
+                        <span className="font-mono text-[10px] font-black uppercase tracking-widest text-foreground/40">Total de Itens:</span>
+                        <span className="font-serif font-black text-xl italic">{MOCK_CART.length}</span>
+                    </div>
+                </div>
 
-                    <div className="flex flex-col gap-4 mt-4">
+                <div className="flex flex-col lg:flex-row gap-16 items-start">
+                    
+                    {/* Left side: Items List */}
+                    <div className="w-full lg:w-[60%] flex flex-col gap-6">
                         {MOCK_CART.map((item) => (
-                            <div key={item.id} className="flex gap-4 border-[1.5px] border-foreground p-4 bg-tactile-light relative">
-                                <button 
-                                    onClick={() => showToast("Remoção de item em breve!")}
-                                    className="absolute top-4 right-4 text-xs font-bold uppercase tracking-wider text-red-500 hover:underline"
-                                >
-                                    Remover
-                                </button>
+                            <div key={item.id} className="group bg-white rounded-[40px] p-6 md:p-8 flex gap-8 border border-foreground/5 hover:border-foreground/20 transition-all shadow-lg relative overflow-hidden">
+                                <div className="w-32 h-40 md:w-40 md:h-52 bg-[#F4F0EB] rounded-[30px] overflow-hidden relative flex-shrink-0">
+                                    <Image 
+                                        src={item.imageUrl} 
+                                        alt={item.name}
+                                        fill
+                                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                    />
+                                </div>
                                 
-                                <div className="w-24 h-28 bg-foreground/10 border-[1.5px] border-foreground flex-shrink-0" />
-                                
-                                <div className="flex flex-col justify-between py-1">
-                                    <div>
-                                        <h3 className="font-bold uppercase leading-tight text-sm md:text-base pr-16">{item.name}</h3>
-                                        <p className="text-xs font-mono font-semibold opacity-60 mt-1">Vendido por: {item.shop}</p>
-                                        <span className="inline-block mt-2 font-bold text-xs uppercase border-[1.5px] border-foreground px-2 py-0.5">Tam: {item.size}</span>
+                                <div className="flex flex-col justify-between py-2 flex-1">
+                                    <div className="flex flex-col gap-2">
+                                        <div className="flex justify-between items-start">
+                                            <span className="font-mono text-[10px] font-black uppercase tracking-widest text-foreground/40">{item.brand}</span>
+                                            <button 
+                                                onClick={() => showToast("Item removido")}
+                                                className="w-10 h-10 rounded-full border border-foreground/5 flex items-center justify-center hover:bg-red-50 hover:text-white hover:border-red-50 transition-all text-foreground/20"
+                                            >
+                                                <Trash2 size={16} />
+                                            </button>
+                                        </div>
+                                        <h3 className="font-serif font-black text-2xl md:text-3xl italic uppercase tracking-tighter leading-tight pr-12">{item.name}</h3>
+                                        <div className="flex gap-4 mt-2">
+                                            <span className="px-3 py-1 bg-[#F4F0EB] rounded-full font-mono text-[9px] font-black uppercase tracking-widest text-foreground/60">Tamanho: {item.size}</span>
+                                            <span className="px-3 py-1 bg-[#F4F0EB] rounded-full font-mono text-[9px] font-black uppercase tracking-widest text-foreground/60">ID: {item.id}</span>
+                                        </div>
                                     </div>
-                                    <p className="font-serif font-black italic text-xl">R$ {item.price.toFixed(2)}</p>
+                                    <div className="flex justify-between items-end">
+                                        <p className="font-serif font-black italic text-3xl">C$ {item.price.toFixed(0)}</p>
+                                    </div>
                                 </div>
                             </div>
                         ))}
-                    </div>
-                </div>
 
-                {/* Right side: Receipt / Checkout */}
-                <div className="w-full lg:w-2/5">
-                    <div className="sticky top-24 w-full bg-tactile-dark text-tactile-light border-[1.5px] border-tactile-dark p-6 hard-shadow flex flex-col gap-6">
-                        <div className="text-center border-b-[1.5px] border-tactile-light/20 pb-4">
-                            <h2 className="text-2xl font-serif font-black italic uppercase">Breshop</h2>
-                            <p className="font-mono text-xs opacity-60 mt-1">ORDER SUMMARY RECEIPT</p>
+                        <div className="bg-foreground/5 rounded-[40px] p-8 flex items-center justify-center border-2 border-dashed border-foreground/10 mt-4">
+                            <p className="font-serif font-black italic text-foreground/30 text-xl">Continue garimpando para encontrar mais tesouros.</p>
                         </div>
+                    </div>
 
-                        <div className="flex flex-col gap-3 font-mono text-sm">
-                            <div className="flex justify-between">
-                                <span>Subtotal</span>
-                                <span>R$ {subtotal.toFixed(2)}</span>
+                    {/* Right side: Summary Card */}
+                    <div className="w-full lg:w-[40%] sticky top-32">
+                        <div className="bg-white rounded-[40px] p-10 shadow-2xl border border-foreground/5 flex flex-col gap-10">
+                            <div className="flex flex-col gap-2 text-center border-b border-foreground/10 pb-8">
+                                <h2 className="text-3xl font-serif font-black italic tracking-tighter uppercase">Order Summary.</h2>
+                                <p className="font-mono text-[10px] font-bold text-foreground/40 tracking-widest uppercase">Pagamento Seguro & Criptografado</p>
                             </div>
-                            <div className="flex justify-between">
-                                <span>Frete Estimado</span>
-                                <span>R$ {shipping.toFixed(2)}</span>
-                            </div>
-                            <div className="w-full h-[1px] border-b-[1.5px] border-dashed border-tactile-light/30 my-2" />
-                            
-                            {/* Promo Code Logic Mockup */}
-                            <div className="flex flex-col gap-2">
-                                <label htmlFor="promoCode" className="text-xs uppercase font-sans font-bold">Código Promocional</label>
-                                <div className="flex font-sans">
-                                    <input 
-                                        type="text" 
-                                        id="promoCode"
-                                        placeholder="INSIRA AQUI"
-                                        className="w-full bg-tactile-light/10 border-[1.5px] border-tactile-light px-3 py-2 text-tactile-light placeholder:text-tactile-light/30 focus:outline-none uppercase text-sm"
-                                    />
-                                    <button 
-                                        onClick={() => showToast("Validação de cupom em breve!")}
-                                        className="bg-tactile-light text-tactile-dark px-4 font-bold border-y-[1.5px] border-r-[1.5px] border-tactile-light hover:bg-accent-orange hover:border-accent-orange transition-colors"
-                                    >
-                                        APLICAR
-                                    </button>
+
+                            <div className="flex flex-col gap-6 font-mono text-[11px] font-black uppercase tracking-[0.2em]">
+                                <div className="flex justify-between items-center">
+                                    <span className="text-foreground/40">Subtotal</span>
+                                    <span className="text-lg font-serif italic text-foreground">C$ {subtotal.toFixed(0)}</span>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                    <span className="text-foreground/40">Taxa de Serviço</span>
+                                    <span className="text-lg font-serif italic text-foreground">C$ {shipping.toFixed(0)}</span>
+                                </div>
+                                
+                                <div className="w-full h-px bg-foreground/10 my-2" />
+                                
+                                <div className="flex flex-col gap-4">
+                                    <label className="text-[9px] text-foreground/40">Cupom de Desconto</label>
+                                    <div className="flex gap-2">
+                                        <input 
+                                            type="text" 
+                                            placeholder="CÓDIGO"
+                                            className="flex-1 bg-[#F4F0EB] rounded-2xl px-6 py-4 text-xs focus:outline-none border border-transparent focus:border-foreground/10 transition-all font-bold"
+                                        />
+                                        <button className="bg-foreground text-background px-6 rounded-2xl text-[10px] font-black uppercase hover:opacity-80 transition-all">
+                                            Aplicar
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div className="w-full h-px bg-foreground/10 my-2" />
+
+                                <div className="flex justify-between items-end pt-4">
+                                    <span className="text-foreground text-sm">Grand Total</span>
+                                    <span className="font-serif font-black italic text-5xl tracking-tighter">C$ {total.toFixed(0)}</span>
                                 </div>
                             </div>
 
-                            <div className="w-full h-[1px] border-b-[1.5px] border-dashed border-tactile-light/30 my-2" />
-
-                            <div className="flex justify-between items-end font-sans">
-                                <span className="font-bold uppercase text-sm">Total</span>
-                                <span className="font-serif font-black italic text-4xl text-accent-lime">R$ {total.toFixed(2)}</span>
+                            <div className="flex flex-col gap-4">
+                                <button 
+                                    onClick={() => showToast("Finalizando reserva...")}
+                                    className="w-full bg-foreground text-background rounded-full py-6 text-xl font-black uppercase tracking-widest hover:opacity-90 transition-all flex items-center justify-center gap-4 shadow-xl"
+                                >
+                                    <CreditCard size={24} />
+                                    Finalizar Reserva
+                                </button>
+                                <div className="flex items-center justify-center gap-2 text-foreground/40 font-mono text-[10px] font-bold uppercase tracking-widest">
+                                    <ShieldCheck size={14} />
+                                    Proteção ao Comprador Breshop
+                                </div>
                             </div>
                         </div>
 
-                        <button 
-                            onClick={() => showToast("Processamento de pagamento em breve!")}
-                            className="w-full mt-4 bg-accent-orange text-tactile-dark border-[2px] border-tactile-dark font-black tracking-widest uppercase py-4 text-lg hover:bg-tactile-light transition-colors tag-pill"
-                        >
-                            Finalizar Compra
-                        </button>
-
-                        <p className="text-center text-[10px] font-mono opacity-50 uppercase mt-2">
-                            Transação criptografada & Segura
-                        </p>
+                        {/* Additional Info Cards */}
+                        <div className="mt-8 grid grid-cols-2 gap-4">
+                            <div className="bg-white/40 rounded-3xl p-6 border border-foreground/5 flex flex-col gap-2">
+                                <span className="font-mono text-[9px] font-black uppercase text-foreground/40">Envio</span>
+                                <p className="font-serif font-black italic text-sm uppercase">Brasil Inteiro</p>
+                            </div>
+                            <div className="bg-white/40 rounded-3xl p-6 border border-foreground/5 flex flex-col gap-2">
+                                <span className="font-mono text-[9px] font-black uppercase text-foreground/40">Devolução</span>
+                                <p className="font-serif font-black italic text-sm uppercase">7 Dias Grátis</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </main>
     );
