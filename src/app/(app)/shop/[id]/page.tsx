@@ -21,9 +21,10 @@ export default function ShopPage({ params }: { params: Promise<{ id: string }> }
             {/* Shop Banner area */}
             <div className="w-full h-[50vh] relative overflow-hidden">
                 <Image 
-                    src={shop.bannerUrl} 
+                    src={shop.bannerUrl}
                     alt={shop.name}
                     fill
+                    sizes="100vw"
                     className="object-cover transition-transform duration-[20s] hover:scale-110"
                     priority
                 />

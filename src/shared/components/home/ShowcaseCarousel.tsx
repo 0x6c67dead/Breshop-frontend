@@ -101,6 +101,7 @@ export default function ShowcaseCarousel({ title, subtitle, products, accentColo
                   src={product.imageUrl}
                   alt={product.brand}
                   fill
+                  sizes="(max-width:768px) 50vw, 25vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className={`absolute top-4 left-4 border-[1.5px] border-foreground px-3 py-1 text-[10px] font-black uppercase tracking-widest ${accentClass}`}>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { MOCK_PRODUCTS, MOCK_SHOPS } from "@/src/shared/mocks/data";
 import ProductCard from "@/src/shared/components/feed/ProductCard";
 import { useSearchParams } from "next/navigation";
@@ -9,6 +9,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function FullShopPage() {
+    return <Suspense><ShopContent /></Suspense>;
+}
+
+function ShopContent() {
     const searchParams = useSearchParams();
     const initialQuery = searchParams.get('q') || "";
     const [searchQuery, setSearchQuery] = useState(initialQuery);

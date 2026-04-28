@@ -46,9 +46,10 @@ export default function FavoritesPage() {
                                 <div className="relative aspect-[3/4] bg-white rounded-[32px] p-4 border border-foreground/5 shadow-sm group-hover:shadow-2xl transition-all overflow-hidden">
                                      <div className="relative w-full h-full rounded-[24px] overflow-hidden">
                                         <Image 
-                                            src={product.imageUrl} 
+                                            src={product.imageUrl}
                                             alt={product.model}
                                             fill
+                                            sizes="(max-width:768px) 50vw, 25vw"
                                             className="object-cover group-hover:scale-110 transition-transform duration-700"
                                         />
                                         <div className="absolute top-4 right-4 z-10">
@@ -89,9 +90,10 @@ export default function FavoritesPage() {
                                     {MOCK_PRODUCTS.filter(p => p.shopId === shop.id).slice(0, 3).map((product) => (
                                         <div key={product.id} className="relative h-full rounded-2xl overflow-hidden border border-foreground/5 bg-foreground/5">
                                             <Image 
-                                                src={product.imageUrl} 
-                                                alt={product.model} 
-                                                fill 
+                                                src={product.imageUrl}
+                                                alt={product.model}
+                                                fill
+                                                sizes="120px"
                                                 className="object-cover transition-all duration-300 opacity-60 group-hover:opacity-100" 
                                             />
                                         </div>

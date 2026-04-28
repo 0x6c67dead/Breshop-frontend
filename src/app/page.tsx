@@ -5,9 +5,19 @@ import ProductCard from "@/src/shared/components/feed/ProductCard";
 import { MOCK_PRODUCTS, MOCK_SHOPS } from "@/src/shared/mocks/data";
 import Image from "next/image";
 import Link from "next/link";
+import { useMarketplaceStore } from "@/src/shared/lib/store/marketplaceStore";
 
 export default function Home() {
-  const availableProducts = MOCK_PRODUCTS.filter(p => p.status === "AVAILABLE");
+  const { items, fetchItems } = useMarketplaceStore();
+
+  useEffect(() => { fetchItems(); }, [fetchItems]);
+
+  // Merge: DB items give live status; mock gives imageUrl/brand/model/tags
+  const availableProducts = MOCK_PRODUCTS.filter((mock) => {
+    const dbItem = items.find((i) => i.id === mock.id);
+    // If DB item exists, use its status; otherwise trust mock status
+    return dbItem ? dbItem.status === "AVAILABLE" : mock.status === "AVAILABLE";
+  });
   
   // Hero Carousel State
   const [heroIndex, setHeroIndex] = useState(0);
@@ -118,9 +128,10 @@ export default function Home() {
                                     <Link key={product.id} href={`/product/${product.id}`} className="flex flex-col gap-4 group">
                                         <div className={`relative aspect-[3/4] rounded-[24px] overflow-hidden border border-foreground/5 transition-all duration-500 group-hover:shadow-lg ${i === 1 ? 'md:scale-105 md:-translate-y-2' : ''}`}>
                                             <Image 
-                                                src={product.imageUrl} 
+                                                src={product.imageUrl}
                                                 alt={product.brand}
                                                 fill
+                                                sizes="(max-width:768px) 100vw, 33vw"
                                                 className="object-cover transition-transform duration-700 group-hover:scale-110"
                                             />
                                         </div>

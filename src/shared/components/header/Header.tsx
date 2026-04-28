@@ -1,15 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Menu, Search, ShoppingBag, Coins, LogIn } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
+import { Menu, Search, Coins, LogIn, LogOut } from "lucide-react";
 import Link from "next/link";
 import { useMarketplaceStore } from "@/src/shared/lib/store/marketplaceStore";
 
+const AUTH_PATHS = ['/login', '/register', '/forgot-password', '/reset-password'];
+
 export default function Header() {
-    const { balance, user } = useMarketplaceStore();
+    const { balance, user, logout } = useMarketplaceStore();
     const router = useRouter();
+    const pathname = usePathname();
     const [searchQuery, setSearchQuery] = useState("");
+
+    // Hide header on auth pages
+    if (AUTH_PATHS.some((p) => pathname.startsWith(p))) return null;
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
@@ -19,14 +25,22 @@ export default function Header() {
         }
     };
 
+    const handleLogout = () => {
+        logout();
+        router.push('/login');
+    };
+
+    const isOwner = user?.role === 'BRECHO_OWNER';
+    const isAdmin = user?.role === 'ADMIN';
+
     return (
         <header className="sticky top-0 w-full z-50 bg-[#F4F0EB]/80 backdrop-blur-md border-b border-foreground/5">
             <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-12 h-24">
-                
+
                 {/* Left: Search & Wallet */}
                 <form onSubmit={handleSearch} className="flex items-center gap-6 flex-1 lg:flex-none">
                     <div className="relative flex items-center">
-                        <input 
+                        <input
                             type="text"
                             placeholder="Buscar..."
                             value={searchQuery}
@@ -47,31 +61,52 @@ export default function Header() {
 
                 {/* Center: Logo */}
                 <div className="absolute left-1/2 -translate-x-1/2">
-                    <Link href={'/'} className="text-3xl md:text-5xl font-serif font-black italic tracking-tighter hover:opacity-70 transition-opacity">
+                    <Link href="/" className="text-3xl md:text-5xl font-serif font-black italic tracking-tighter hover:opacity-70 transition-opacity">
                         Breshop.
                     </Link>
                 </div>
 
-                {/* Right: Actions */}
+                {/* Right: Nav + Actions */}
                 <div className="flex items-center gap-4">
-                    <nav className="hidden lg:flex items-center gap-8 mr-8">
-                        {user?.role === 'ADMIN' && (
+                    <nav className="hidden lg:flex items-center gap-6 mr-4">
+                        {isAdmin && (
                             <Link href="/admin" className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 hover:text-foreground transition-colors">
                                 Admin
                             </Link>
                         )}
-                        {(user?.role === 'OWNER' || user?.role === 'ADMIN') && (
-                            <Link href="/shop-dashboard" className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 hover:text-foreground transition-colors">
-                                Dashboard
-                            </Link>
+                        {(isOwner || isAdmin) && (
+                            <>
+                                <Link href="/shop-dashboard" className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 hover:text-foreground transition-colors">
+                                    Dashboard
+                                </Link>
+                                <Link href="/extrato" className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 hover:text-foreground transition-colors">
+                                    Extrato
+                                </Link>
+                            </>
                         )}
-                        <Link href="/favorites" className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 hover:text-foreground transition-colors">
-                            Favorites
-                        </Link>
+                        {!isOwner && (
+                            <>
+                                <Link href="/favorites" className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 hover:text-foreground transition-colors">
+                                    Favoritos
+                                </Link>
+                                <Link href="/minhas-reservas" className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 hover:text-foreground transition-colors">
+                                    Reservas
+                                </Link>
+                            </>
+                        )}
                         {user ? (
-                            <Link href="/profile" className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 hover:text-foreground transition-colors">
-                                Profile
-                            </Link>
+                            <>
+                                <Link href="/profile" className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 hover:text-foreground transition-colors">
+                                    Perfil
+                                </Link>
+                                <button
+                                    onClick={handleLogout}
+                                    className="flex items-center gap-2 bg-foreground text-background px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest hover:opacity-80 transition-all"
+                                >
+                                    <LogOut size={12} />
+                                    Sair
+                                </button>
+                            </>
                         ) : (
                             <Link href="/login" className="flex items-center gap-2 bg-foreground text-background px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest hover:opacity-80 transition-all">
                                 <LogIn size={14} />
@@ -79,15 +114,10 @@ export default function Header() {
                             </Link>
                         )}
                     </nav>
-                    
-                    <div className="flex items-center gap-2">
-                        <Link href="/cart" className="w-12 h-12 rounded-full bg-white border border-foreground/5 flex items-center justify-center hover:bg-foreground hover:text-background transition-all shadow-sm">
-                            <ShoppingBag size={20} />
-                        </Link>
-                        <button className="w-12 h-12 rounded-full bg-white border border-foreground/5 flex items-center justify-center hover:bg-foreground hover:text-background transition-all shadow-sm lg:hidden">
-                            <Menu size={20} />
-                        </button>
-                    </div>
+
+                    <button className="w-12 h-12 rounded-full bg-white border border-foreground/5 flex items-center justify-center hover:bg-foreground hover:text-background transition-all shadow-sm lg:hidden">
+                        <Menu size={20} />
+                    </button>
                 </div>
             </div>
         </header>
