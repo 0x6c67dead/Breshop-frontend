@@ -25,11 +25,11 @@
   --radius-lg: 24px;
   --radius-xl: 40px;
 
-  /* Animations */
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 body {
@@ -41,7 +41,13 @@ body {
 }
 
 .animate-marquee {
-  animation: marquee 20s linear infinite;
+  animation: marquee 25s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.marquee-wrapper:hover .animate-marquee {
+  animation-play-state: paused;
 }
 
 button{

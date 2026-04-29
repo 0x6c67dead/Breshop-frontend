@@ -88,9 +88,10 @@ export default function Home() {
       </section>
 
       {/* Logo Marquee (Fictional Shops) */}
-      <section className="w-full py-12 border-y border-foreground/10 bg-white/50 backdrop-blur-sm overflow-hidden relative">
-        <div className="flex animate-marquee whitespace-nowrap gap-20 items-center">
-          {MOCK_SHOPS.concat(MOCK_SHOPS).map((shop, i) => (
+      <section className="marquee-wrapper w-full py-12 border-y border-foreground/10 bg-white/50 backdrop-blur-sm overflow-hidden relative">
+        <div className="flex animate-marquee whitespace-nowrap gap-20 items-center" style={{ width: 'max-content' }}>
+          {/* Triplicamos para garantir preenchimento em qualquer tela */}
+          {[...MOCK_SHOPS, ...MOCK_SHOPS, ...MOCK_SHOPS, ...MOCK_SHOPS].map((shop, i) => (
             <Link key={i} href={`/shop/${shop.id}`} className="flex items-center gap-10 group">
                 <span className="text-4xl font-serif font-black italic uppercase tracking-tighter mx-10 opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all cursor-pointer">{shop.name}</span>
                 <div className="w-2 h-2 rounded-full bg-foreground/20" />

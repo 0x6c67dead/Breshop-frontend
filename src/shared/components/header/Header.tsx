@@ -52,10 +52,13 @@ export default function Header() {
                         </button>
                     </div>
                     {user && (
-                        <div className="hidden md:flex items-center gap-2 bg-white px-5 py-2 rounded-full border border-foreground/5 shadow-sm">
+                        <Link
+                            href={isOwner || isAdmin ? '/extrato' : '/minhas-reservas'}
+                            className="hidden md:flex items-center gap-2 bg-white px-5 py-2 rounded-full border border-foreground/5 shadow-sm hover:border-foreground/20 hover:shadow-md transition-all"
+                        >
                             <Coins size={14} className="text-foreground/40" />
                             <span className="text-[10px] font-black tracking-widest uppercase">C$ {balance}</span>
-                        </div>
+                        </Link>
                     )}
                 </form>
 
