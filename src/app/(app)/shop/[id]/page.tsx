@@ -2,19 +2,69 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { use } from 'react';
+import { use, useEffect, useState } from 'react';
 import { MOCK_SHOPS, MOCK_PRODUCTS } from "@/src/shared/mocks/data";
 import ProductCard from "@/src/shared/components/feed/ProductCard";
 import { useToast } from "@/src/shared/components/ui/Toast";
-import { ArrowLeft, UserPlus, MapPin, Star, Package } from "lucide-react";
+import { ArrowLeft, UserPlus, MapPin, Star, Package, Loader2 } from "lucide-react";
+
+interface Brecho {
+  id: string;
+  name: string;
+}
+
+interface DbItem {
+  id: string;
+  title: string;
+  price: number;
+  status: string;
+  brechoId: string;
+  brecho: Brecho;
+}
 
 export default function ShopPage({ params }: { params: Promise<{ id: string }> }) {
     const { showToast } = useToast();
     const unresolvedParams = use(params);
     const shopId = unresolvedParams.id;
 
-    const shop = MOCK_SHOPS.find(s => s.id === shopId) || MOCK_SHOPS[0];
-    const shopProducts = MOCK_PRODUCTS.filter(p => p.shopId === shop.id);
+    const [dbItems, setDbItems] = useState<DbItem[]>([]);
+    const [dbBrecho, setDbBrecho] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const itemsRes = await fetch(`/api/items?brechoId=${shopId}`);
+          const itemsData = await itemsRes.json();
+          if (Array.isArray(itemsData)) setDbItems(itemsData);
+
+          const brechoRes = await fetch(`/api/brechos/${shopId}`);
+          const brechoData = await brechoRes.json();
+          if (brechoData && !brechoData.error) setDbBrecho(brechoData);
+        } catch (err) {
+          console.error('Error fetching:', err);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchData();
+    }, [shopId]);
+
+    const shop = dbBrecho || MOCK_SHOPS.find(s => s.id === shopId) || MOCK_SHOPS[0];
+    const shopProducts = dbItems.length > 0 ? dbItems : MOCK_PRODUCTS.filter(p => p.shopId === shop.id);
+
+    const [selectedTag, setSelectedTag] = useState<string>('');
+    const filteredProducts = selectedTag
+      ? shopProducts.filter((p: any) => p.tags?.some?.((t: any) => t.name === selectedTag))
+      : shopProducts;
+
+    if (loading) {
+      return (
+        <main className="w-full min-h-screen bg-[#F4F0EB] flex items-center justify-center">
+          <Loader2 className="animate-spin w-8 h-8 text-foreground" />
+        </main>
+      );
+    }
 
     return (
         <main className="w-full min-h-screen bg-[#F4F0EB] text-foreground">
@@ -115,12 +165,43 @@ export default function ShopPage({ params }: { params: Promise<{ id: string }> }
                                 <p className="font-mono text-xs font-bold uppercase tracking-widest text-foreground/40 mt-4">Peças únicas selecionadas por esta curadoria</p>
                             </div>
                             <div className="flex gap-4 font-mono text-[10px] font-black uppercase tracking-widest text-foreground/40">
-                                <span>Disponíveis ({shopProducts.length})</span>
+                                <span>Disponíveis ({filteredProducts.length})</span>
                             </div>
                         </div>
 
+                        {/* Filters */}
+                        {shopProducts.length > 0 && (
+                          <div className="mb-12 flex flex-wrap gap-2">
+                            <button
+                              onClick={() => setSelectedTag('')}
+                              className={`px-4 py-2 rounded-full font-mono text-[10px] font-black uppercase tracking-widest transition-all ${
+                                selectedTag === ''
+                                  ? 'bg-foreground text-background'
+                                  : 'border border-foreground/20 text-foreground hover:border-foreground'
+                              }`}
+                            >
+                              Todos
+                            </button>
+                            {Array.from(new Set(
+                              shopProducts.flatMap((p: any) => p.tags?.map?.((t: any) => t.name) || [])
+                            )).map((tag: string) => (
+                              <button
+                                key={tag}
+                                onClick={() => setSelectedTag(tag)}
+                                className={`px-4 py-2 rounded-full font-mono text-[10px] font-black uppercase tracking-widest transition-all ${
+                                  selectedTag === tag
+                                    ? 'bg-foreground text-background'
+                                    : 'border border-foreground/20 text-foreground hover:border-foreground'
+                                }`}
+                              >
+                                #{tag}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+
                         <div className="columns-1 md:columns-2 gap-12 space-y-12">
-                            {shopProducts.map((product) => (
+                            {filteredProducts.map((product) => (
                                 <div key={product.id} className="break-inside-avoid">
                                     <ProductCard {...product} />
                                 </div>

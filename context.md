@@ -386,3 +386,5 @@ Esse manual de marca foi baseado nessa produção de documentação do projeto:
     - Segurança;
     - Cadastro e formas de pagamentos;
     - Login/Senha;
+
+    

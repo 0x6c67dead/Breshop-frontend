@@ -1,15 +1,19 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/src/shared/lib/prisma';
 
-export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id: brechoId } = await params;
+    const { searchParams } = new URL(req.url);
+    const fetchAll = searchParams.get('all') === 'true';
+
+    const where: any = { item: { brechoId } };
+    if (!fetchAll) {
+      where.status = { in: ['RESERVED', 'APPROVED', 'AWAITING_DELIVERY'] };
+    }
 
     const orders = await prisma.order.findMany({
-      where: {
-        item: { brechoId },
-        status: { in: ['RESERVED', 'APPROVED', 'AWAITING_DELIVERY'] },
-      },
+      where,
       include: {
         item: true,
         user: { select: { id: true, name: true, email: true } },
