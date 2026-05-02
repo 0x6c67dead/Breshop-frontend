@@ -36,10 +36,11 @@ export const metadata: Metadata = {
     siteName: "Breshop",
     images: [
       {
-        url: "/branding/og_image.png",
-        width: 1200,
-        height: 630,
+        url: "https://breshop-frontend.vercel.app/branding/og_image.png",
+        width: 1920,
+        height: 993,
         alt: "Breshop - Marketplace para brechós",
+        type: "image/png",
       },
     ],
     locale: "pt_BR",
@@ -49,7 +50,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Breshop",
     description: "Moda sustentável, comunidade real",
-    images: ["/branding/og_image.png"],
+    images: ["https://breshop-frontend.vercel.app/branding/og_image.png"],
   },
 };
 
