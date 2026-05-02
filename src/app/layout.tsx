@@ -18,6 +18,7 @@ const grotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://breshop-frontend.vercel.app"),
   title: "Breshop | Moda Sustentável, Comunidade Real",
   description: "Encontre peças únicas e estilosas em brechós selecionados. Seu brechó ganha visibilidade, clientes encontram estilo único.",
   icons: {
@@ -31,11 +32,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Breshop | Moda Sustentável, Comunidade Real",
     description: "Seu brechó ganha visibilidade. Clientes encontram estilo único.",
-    url: "https://breshop-frontend.vercel.app",
+    url: "https://breshop-frontend.vercel.app/",
     siteName: "Breshop",
     images: [
       {
-        url: "/og-image.png",
+        url: "/branding/og_image.png",
         width: 1200,
         height: 630,
         alt: "Breshop - Marketplace para brechós",
@@ -48,7 +49,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Breshop",
     description: "Moda sustentável, comunidade real",
-    images: ["/og-image.png"],
+    images: ["/branding/og_image.png"],
   },
 };
 
