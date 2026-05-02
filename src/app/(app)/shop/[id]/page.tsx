@@ -122,7 +122,7 @@ export default function ShopPage({ params }: { params: Promise<{ id: string }> }
                         <div className="columns-1 md:columns-2 gap-12 space-y-12">
                             {shopProducts.map((product) => (
                                 <div key={product.id} className="break-inside-avoid">
-                                    <ProductCard {...product} />
+                                    <ProductCard {...product} /> 
                                 </div>
                             ))}
                         </div>
