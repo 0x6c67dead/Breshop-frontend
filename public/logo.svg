@@ -7,4 +7,8 @@
   <rect width="512" height="512" fill="#16261A" rx="40"/>
   <rect width="512" height="512" fill="#16261A" rx="40" opacity="0.08" filter="url(#noise)"/>
   <text x="256" y="420" font-family="'Playfair Display', serif" font-size="380" font-style="italic" font-weight="700" fill="#DFFF00" text-anchor="middle">B</text>
+<<<<<<< HEAD
 </svg>
+=======
+</svg>
+>>>>>>> ad588f4e48595fa4293594bc7b3b766d1065509a

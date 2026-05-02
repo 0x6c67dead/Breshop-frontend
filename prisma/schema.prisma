@@ -62,6 +62,7 @@ model User {
 
   wallet    CoinWallet?
   orders    Order[]
+  brechos   Brecho[]
 }
 
 model Brecho {
@@ -72,6 +73,7 @@ model Brecho {
 
   items     Item[]
   wallet    CoinWallet?
+  owner     User     @relation(fields: [ownerId], references: [id])
 }
 
 model Item {
@@ -84,6 +86,13 @@ model Item {
 
   brecho    Brecho @relation(fields: [brechoId], references: [id])
   orders    Order[]
+  tags      Tag[]
+}
+
+model Tag {
+  id    String @id @default(uuid())
+  name  String @unique
+  items Item[]
 }
 
 model Order {

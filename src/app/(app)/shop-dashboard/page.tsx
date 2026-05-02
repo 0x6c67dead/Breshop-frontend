@@ -3,7 +3,7 @@
 import { useMarketplaceStore, DbOrder } from "@/src/shared/lib/store/marketplaceStore";
 import { MOCK_PRODUCTS } from "@/src/shared/mocks/data";
 import { useToast } from "@/src/shared/components/ui/Toast";
-import { CheckCircle2, XCircle, Loader2, DollarSign, TrendingUp, ExternalLink } from "lucide-react";
+import { CheckCircle2, XCircle, Loader2, DollarSign, TrendingUp, ExternalLink, BarChart3 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -81,6 +81,11 @@ export default function ShopDashboard() {
             <Link href="/extrato" className="flex gap-2 bg-white p-2 rounded-full border border-foreground/5 shadow-sm">
               <div className="px-5 py-2 rounded-full border border-foreground/20 text-foreground text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:bg-foreground hover:text-background transition-all">
                 <ExternalLink size={12} /> Ver Extrato
+              </div>
+            </Link>
+            <Link href="/analytics" className="flex gap-2 bg-white p-2 rounded-full border border-foreground/5 shadow-sm">
+              <div className="px-5 py-2 rounded-full border border-foreground/20 text-foreground text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:bg-foreground hover:text-background transition-all">
+                <BarChart3 size={12} /> Analytics
               </div>
             </Link>
           </div>
