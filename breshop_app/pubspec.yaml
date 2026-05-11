@@ -1,0 +1,84 @@
+name: breshop_app
+description: "Marketplace de moda sustentável - Flutter Version"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # ===== STATE MANAGEMENT =====
+  riverpod: ^2.4.0
+  flutter_riverpod: ^2.4.0
+  hooks_riverpod: ^2.4.0                # Para usar hooks com Riverpod
+
+  # ===== ROUTING =====
+  go_router: ^13.0.0
+
+  # ===== HTTP & SERIALIZAÇÃO =====
+  http: ^1.1.0
+  json_annotation: ^4.8.0
+
+  # ===== STORAGE & SEGURANÇA =====
+  flutter_secure_storage: ^9.0.0
+  shared_preferences: ^2.2.0
+
+  # ===== UI & COMPONENTES =====
+  cached_network_image: ^3.3.0          # Cache de imagens
+  flutter_staggered_grid_view: ^0.7.0   # Masonry grid
+  infinite_scroll_pagination: ^4.0.0    # Pagination
+  intl: ^0.19.0                         # Formatação de data/moeda
+  animations: ^2.0.0                    # Transições customizadas
+
+  # ===== ICONS =====
+  lucide_icons: ^0.257.0                  # Icons tipo lucide-react
+
+  # ===== UTILITÁRIOS =====
+  equatable: ^2.0.5                     # Igualdade de objetos
+  uuid: ^4.0.0                          # Geração de UUIDs
+  get_it: ^7.6.0                        # Service locator (opcional)
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # ===== LINTING & ANÁLISE =====
+  flutter_lints: ^3.0.0
+  very_good_analysis: ^5.0.0
+
+  # ===== GERAÇÃO DE CÓDIGO =====
+  build_runner: ^2.4.0
+  json_serializable: ^6.7.0
+  riverpod_generator: ^2.3.0
+
+flutter:
+  uses-material-design: true
+
+  # ===== ASSETS =====
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/fonts/
+
+  # ===== FONTS (Comentado até que os arquivos .ttf sejam adicionados) =====
+  # fonts:
+  #   - family: Serif
+  #     fonts:
+  #       - asset: assets/fonts/Serif-Regular.ttf
+  #       - asset: fonts/Serif-Bold.ttf
+  #         weight: 700
+  #       - asset: assets/fonts/Serif-Italic.ttf
+  #         style: italic
+  #       - asset: assets/fonts/Serif-BoldItalic.ttf
+  #         weight: 700
+  #         style: italic
+  #
+  #   - family: Mono
+  #     fonts:
+  #       - asset: assets/fonts/Mono-Regular.ttf
+  #       - asset: assets/fonts/Mono-Bold.ttf
+  #         weight: 700
