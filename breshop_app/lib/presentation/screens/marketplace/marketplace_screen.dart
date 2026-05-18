@@ -7,6 +7,7 @@ import '../../../domain/entities/product.dart';
 import '../../widgets/common/product_card.dart';
 import '../../widgets/common/breshop_search_bar.dart' as breshop;
 import '../../widgets/common/category_filter.dart';
+import '../../widgets/common/breshop_navigation_drawer.dart';
 
 class MarketplaceScreen extends ConsumerStatefulWidget {
   const MarketplaceScreen({super.key});
@@ -17,7 +18,8 @@ class MarketplaceScreen extends ConsumerStatefulWidget {
 
 class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
   String selectedCategory = 'Tudo';
-  final List<String> categories = ['Tudo', 'Camisetas', 'Calças', 'Vestidos', 'Acessórios', 'Calçados'];
+  final List<String> categories = ['Tudo', 'Camisetas', 'Calças', 'Vestidos', 'Casacos', 'Acessórios', 'Calçados'];
+  final Set<String> favoritedIds = {};
 
   // Dummy products for initial UI verification
   final List<Product> dummyProducts = [
@@ -75,10 +77,20 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
     ),
   ];
 
+  List<Product> get filteredProducts {
+    if (selectedCategory == 'Tudo') {
+      return dummyProducts;
+    }
+    return dummyProducts
+        .where((p) => p.category.toLowerCase() == selectedCategory.toLowerCase())
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: BreshopColors.background,
+      drawer: const BreshopNavigationDrawer(),
       body: CustomScrollView(
         slivers: [
           // Custom App Bar / Header
@@ -136,15 +148,34 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
               crossAxisSpacing: 16,
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  final product = dummyProducts[index];
+                  final product = filteredProducts[index];
+                  final isFav = favoritedIds.contains(product.id);
                   return ProductCard(
                     product: product,
+                    isFavorited: isFav,
+                    onFavorite: () {
+                      setState(() {
+                        if (isFav) {
+                          favoritedIds.remove(product.id);
+                        } else {
+                          favoritedIds.add(product.id);
+                        }
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            isFav ? 'Removido dos favoritos.' : 'Adicionado aos favoritos!',
+                          ),
+                          duration: const Duration(seconds: 1),
+                        ),
+                      );
+                    },
                     onTap: () {
                       context.push('/product-details', extra: product);
                     },
                   );
                 },
-                childCount: dummyProducts.length,
+                childCount: filteredProducts.length,
               ),
             ),
           ),

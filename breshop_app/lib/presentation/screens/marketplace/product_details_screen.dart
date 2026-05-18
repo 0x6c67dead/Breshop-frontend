@@ -1,15 +1,87 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../../core/theme/colors.dart';
 import '../../../domain/entities/product.dart';
+import '../../../application/providers/auth_provider.dart';
 
-class ProductDetailsScreen extends StatelessWidget {
+class ProductDetailsScreen extends ConsumerStatefulWidget {
   final Product product;
 
   const ProductDetailsScreen({super.key, required this.product});
 
   @override
+  ConsumerState<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
+}
+
+class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
+  bool _isLoading = false;
+
+  void _handlePurchase() async {
+    final user = ref.read(authProvider).user;
+    if (user == null) {
+      context.push('/login');
+      return;
+    }
+
+    if (user.balance < widget.product.price) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Saldo Insuficiente'),
+          content: const Text('Você não tem Coins suficientes para comprar esta peça. Recarregue sua carteira no Meu Perfil!'),
+          actions: [
+            TextButton(
+              onPressed: () => context.pop(),
+              child: const Text('FECHAR'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                context.pop();
+                context.push('/profile');
+              },
+              child: const Text('IR PARA PERFIL'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+    await Future.delayed(const Duration(milliseconds: 800)); // Simulando API
+    setState(() => _isLoading = false);
+
+    if (mounted) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          title: const Text('🎉 Compra Realizada!'),
+          content: Text('Sua reserva para "${widget.product.name}" foi concluída com sucesso!'),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                context.pop();
+                context.pop(); // Volta pro marketplace
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: BreshopColors.accentLime,
+                foregroundColor: BreshopColors.black,
+              ),
+              child: const Text('VOLTAR AO INÍCIO'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final product = widget.product;
+
     return Scaffold(
       backgroundColor: BreshopColors.white,
       body: CustomScrollView(
@@ -136,13 +208,20 @@ class ProductDetailsScreen extends StatelessWidget {
           ],
         ),
         child: ElevatedButton(
-          onPressed: () {
-            // TODO: Adicionar ao carrinho ou checkout
-          },
+          onPressed: _isLoading ? null : _handlePurchase,
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 16),
           ),
-          child: const Text('COMPRAR AGORA'),
+          child: _isLoading
+              ? const SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: BreshopColors.white,
+                  ),
+                )
+              : const Text('COMPRAR AGORA'),
         ),
       ),
     );

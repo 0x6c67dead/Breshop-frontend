@@ -38,12 +38,25 @@ class AuthRepositoryImpl implements AuthRepository {
       // Se a API falhar ou não existir, permitimos a entrada com dados fake
       print('Aviso: Usando Mock Login devido a erro: $e');
       
+      UserRole mockRole = UserRole.user;
+      if (email.toLowerCase().contains('admin')) {
+        mockRole = UserRole.admin;
+      } else if (email.toLowerCase().contains('owner') || 
+                 email.toLowerCase().contains('brecho') || 
+                 email.toLowerCase().contains('lojista')) {
+        mockRole = UserRole.brechoOwner;
+      }
+
       final mockUser = User(
         id: 'user_123',
-        name: 'Usuário de Teste',
+        name: mockRole == UserRole.admin 
+            ? 'Administrador Breshop' 
+            : mockRole == UserRole.brechoOwner 
+                ? 'Lojista Breshop' 
+                : 'Cliente de Teste',
         email: email,
-        role: UserRole.user,
-        balance: 50.0,
+        role: mockRole,
+        balance: mockRole == UserRole.admin ? 5000.0 : 150.0,
       );
 
       await storage.saveToken('mock_token_abc123');
@@ -51,6 +64,7 @@ class AuthRepositoryImpl implements AuthRepository {
       await storage.saveUserRole(mockUser.role.name);
 
       return mockUser;
+
     }
   }
 
