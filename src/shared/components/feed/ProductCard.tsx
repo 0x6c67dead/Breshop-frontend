@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { PieceStatus } from '@/src/shared/types/Marketplace';
 
 export interface ProductCardProps {
     id: string;
@@ -9,29 +10,22 @@ export interface ProductCardProps {
     price: number;
     size: string;
     tags: string[];
+    status?: PieceStatus;
 }
 
-export default function ProductCard({ id, imageUrl, brand, model, price, size, tags }: ProductCardProps) {
+export default function ProductCard({ id, imageUrl, brand, model, price, size, tags, status = "AVAILABLE" }: ProductCardProps) {
+    const isReserved = status === "RESERVED";
+    const isSold = status === "SOLD";
+
     return (
-        <Link href={`/product/${id}`} className="group block w-full mb-6 relative">
+        <Link href={`/product/${id}`} className={`group block w-full mb-6 relative ${isReserved || isSold ? 'pointer-events-none' : ''}`}>
             <div className="relative w-full overflow-hidden bg-foreground/5 border-[1.5px] border-foreground">
-                {/* 
-                    Using aspect-auto and letting the image dictact height requires 
-                    either responsive layout or an unoptimized img tag.
-                    Since we use next/image in a masonry, we need to provide dimensions, 
-                    but to support varying content heights we usually set a known width/height ratio 
-                    or use layout="fill" with a container that has an aspect ratio. 
-                    Because it's masonry, we want the image to dictate its natural height.
-                    A modern trick in next/image for masonry is setting width to a structural constraint and height implicitly,
-                    but Next.js Image component needs both width/height to avoid CLS. 
-                    We'll use an intrinsic or responsive layout with placeholder dimensions.
-                */}
                 <Image 
                     src={imageUrl} 
                     alt={`${brand} ${model}`} 
                     width={400} 
                     height={500} 
-                    className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300" 
+                    className={`w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300 ${(isReserved || isSold) ? 'grayscale opacity-50' : ''}`} 
                 />
                 
                 {/* Tactical Pills Overlay */}
@@ -42,6 +36,22 @@ export default function ProductCard({ id, imageUrl, brand, model, price, size, t
                         </span>
                     ))}
                 </div>
+
+                {/* Status Badges */}
+                {isReserved && (
+                    <div className="absolute inset-0 flex items-center justify-center z-20">
+                        <span className="bg-foreground text-background font-black uppercase text-2xl px-4 py-2 border-2 border-background transform -rotate-12">
+                            Reservado
+                        </span>
+                    </div>
+                )}
+                {isSold && (
+                    <div className="absolute inset-0 flex items-center justify-center z-20">
+                        <span className="bg-red-600 text-white font-black uppercase text-2xl px-4 py-2 border-2 border-white transform rotate-12">
+                            Vendido
+                        </span>
+                    </div>
+                )}
 
                 {/* Size Badge */}
                 <div className="absolute top-2 right-2 bg-foreground text-tactile-light font-bold text-xs px-2 py-1 uppercase tracking-wider">
@@ -54,8 +64,8 @@ export default function ProductCard({ id, imageUrl, brand, model, price, size, t
                     <span className="font-sans font-black uppercase text-sm leading-tight tracking-wide">{brand}</span>
                     <span className="text-foreground/70 text-sm font-medium">{model}</span>
                 </div>
-                <div className="font-serif font-black italic text-lg text-foreground">
-                    R${price.toFixed(2)}
+                <div className="font-serif font-black italic text-lg text-foreground flex items-center gap-1">
+                    C$ {price.toFixed(0)}
                 </div>
             </div>
         </Link>

@@ -1,7 +1,6 @@
 import { useState } from "react"
 
 export default function BrechoForm(){
-    
     const [nome, setNome] = useState('')
     const [instagram, setInstagram] = useState('')
     const [email, setEmail] = useState('')
@@ -25,89 +24,101 @@ export default function BrechoForm(){
             phone: telefone,
             address: address_id,
         }
-        fetch("http://localhost:8000/brechos/", {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(data) 
-        })
-        .then(async response => {
-            const status = response.status
-            const json = await response.json()
-            return{status: status, json: json}
-        })
-        .then(({status, json}) => {
-            console.log("JSON: ", json)
-            console.log("status: ", status)
-            if( status==201)
-                limparCampos()
-        })
-        .catch(error => console.log(error)
-        )
+        console.log("Creating Brecho:", data);
+        alert("Brechó criado com sucesso (Simulado)");
+        limparCampos()
     }
     
     return(
-        <form method="POST" onSubmit={criarBrecho}>
+        <form method="POST" onSubmit={criarBrecho} className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="space-y-12">
-                
-                <div className="border-b border-white/20 pb-12">
-                    <h2 className="text-white text-xl font-bold">Brecho</h2>
+                <div className="border-b border-foreground/10 pb-12">
+                    <h2 className="text-4xl font-serif font-black italic tracking-tighter uppercase text-foreground">Novo Brechó.</h2>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-foreground/40 mt-2">Registre um novo ponto de curadoria</p>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-6 mt-8 gap-x-6 gap-y-8">
-                        <div className="sm:col-span-3">
-                            <label htmlFor="nome" className="block text-white">Nome</label>
-                            <input type="text" name="nome" id="nome" 
-                            value={nome}
-                            required 
-                            onChange={(e) => setNome(e.target.value)}
-                            className="block w-full rounded-md mt-2 px-2 py-1 outline-white/20 -outline-offset-1 outline-1 bg-white/5"/>
+                    <div className="grid grid-cols-1 md:grid-cols-2 mt-12 gap-10">
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="nome" className="text-[10px] font-black uppercase tracking-widest text-foreground px-2">Nome do Brechó</label>
+                            <input 
+                                type="text" 
+                                name="nome" 
+                                id="nome" 
+                                value={nome}
+                                required 
+                                onChange={(e) => setNome(e.target.value)}
+                                className="w-full bg-white rounded-2xl px-6 py-4 border border-foreground/10 focus:outline-none focus:border-foreground transition-all text-foreground font-bold shadow-sm"
+                                placeholder="Ex: Acervo 90s"
+                            />
                         </div>
-                        
-                        <div className="sm:col-span-2">
-                            <label htmlFor="instagram" className="block text-white">Instagram</label>
-                            <input type="text" name="instagram" id="instagram" maxLength={30} 
-                            value={instagram}
-                            onChange={(e) => setInstagram(e.target.value)}
-                            className="block w-full rounded-md mt-2 px-2 py-1 outline-white/20 -outline-offset-1 outline-1 bg-white/5"/>
-                        </div>
-                        
-                        <div className="sm:col-span-4">
-                            <label htmlFor="email" className="block text-white">Email</label>
-                            <input type="email" name="email" id="email" 
-                            value={email}
-                            required 
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="block w-full rounded-md mt-2 px-2 py-1 outline-white/20 -outline-offset-1 outline-1 bg-white/5"/>
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="instagram" className="text-[10px] font-black uppercase tracking-widest text-foreground px-2">Instagram (Handle)</label>
+                            <input 
+                                type="text" 
+                                name="instagram" 
+                                id="instagram" 
+                                value={instagram}
+                                onChange={(e) => setInstagram(e.target.value)}
+                                className="w-full bg-white rounded-2xl px-6 py-4 border border-foreground/10 focus:outline-none focus:border-foreground transition-all text-foreground font-bold shadow-sm"
+                                placeholder="@acervo90s"
+                            />
                         </div>
 
-                        <div className="sm:col-span-2">
-                            <label htmlFor="telefone" className="block text-white">Telefone</label>
-                            <input type="text" name="telefone" id="telefone" pattern="[0-9]{11}" 
-                            value={telefone}
-                            onChange={(e) => setTelefone(e.target.value)}
-                            className="[appearance:textfield] block w-full rounded-md mt-2 px-2 py-1 outline-white/20 -outline-offset-1 outline-1 bg-white/5"/>
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="email" className="text-[10px] font-black uppercase tracking-widest text-foreground px-2">E-mail de Contato</label>
+                            <input 
+                                type="email" 
+                                name="email" 
+                                id="email" 
+                                value={email}
+                                required 
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="w-full bg-white rounded-2xl px-6 py-4 border border-foreground/10 focus:outline-none focus:border-foreground transition-all text-foreground font-bold shadow-sm"
+                                placeholder="contato@acervo90s.com"
+                            />
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="telefone" className="text-[10px] font-black uppercase tracking-widest text-foreground px-2">Telefone (WhatsApp)</label>
+                            <input 
+                                type="text" 
+                                name="telefone" 
+                                id="telefone" 
+                                value={telefone}
+                                onChange={(e) => setTelefone(e.target.value)}
+                                className="w-full bg-white rounded-2xl px-6 py-4 border border-foreground/10 focus:outline-none focus:border-foreground transition-all text-foreground font-bold shadow-sm"
+                                placeholder="11999999999"
+                            />
                         </div>
                         
-                        <div className="sm:col-span-1">
-                            <label htmlFor="Address_id" className="block text-white">Address_id</label>
-                            <input type="number" name="Address_id" id="Address_id" 
-                            value={address_id}
-                            required 
-                            onChange={(e) => setAddress_id(e.target.valueAsNumber)}
-                            className="[appearance:textfield] block w-full rounded-md mt-2 px-2 py-1 outline-white/20 -outline-offset-1 outline-1 bg-white/5"/>
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="Address_id" className="text-[10px] font-black uppercase tracking-widest text-foreground px-2">ID do Endereço</label>
+                            <input 
+                                type="number" 
+                                name="Address_id" 
+                                id="Address_id" 
+                                value={address_id || ''}
+                                required 
+                                onChange={(e) => setAddress_id(e.target.valueAsNumber)}
+                                className="w-full bg-white rounded-2xl px-6 py-4 border border-foreground/10 focus:outline-none focus:border-foreground transition-all text-foreground font-bold shadow-sm"
+                                placeholder="0"
+                            />
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-row-reverse gap-x-2 px-2 py-1">
-                    <div>
-                        <input type="submit" value='Enviar' id="submit" name="submit" className="px-2 py-1 rounded-md bg-sky-600 font-bold cursor-pointer"/>
-                    </div>
-                    <div>
-                        <input type="reset" value='cancelar' id="reset" name="reset" 
+                <div className="flex items-center justify-end gap-4 pt-6">
+                    <button 
+                        type="button"
                         onClick={limparCampos}
-                        className="px-2 py-1 rounded-md bg-transparent font-bold cursor-pointer"/>
-                    </div>
+                        className="px-10 py-4 rounded-full font-black uppercase text-[10px] tracking-widest border-2 border-foreground/10 text-foreground hover:bg-foreground hover:text-background transition-all"
+                    >
+                        cancelar
+                    </button>
+                    <button 
+                        type="submit" 
+                        className="bg-foreground text-background px-12 py-4 rounded-full font-black uppercase text-[10px] tracking-widest hover:opacity-90 transition-all shadow-xl"
+                    >
+                        Criar Brechó
+                    </button>
                 </div>
             </div>
     </form>

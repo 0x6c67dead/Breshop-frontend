@@ -1,0 +1,135 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  USER
+  BRECHO_OWNER
+  ADMIN
+}
+
+enum ItemStatus {
+  AVAILABLE
+  RESERVED
+  SOLD_PENDING_DELIVERY
+  DELIVERED_PENDING_CONFIRMATION
+  COMPLETED
+  CANCELLED
+  RETURNED_TO_STORE
+  SOLD_OUTSIDE_APP
+}
+
+enum OrderStatus {
+  RESERVED
+  APPROVED
+  REJECTED
+  AWAITING_DELIVERY
+  DELIVERED_PENDING_CONFIRMATION
+  COMPLETED
+  CANCELLED
+}
+
+enum RejectionReason {
+  ITEM_ALREADY_SOLD
+  ITEM_NOT_FOUND
+  STOCK_ERROR
+  OTHER
+}
+
+enum RejectionAction {
+  RETURN_TO_STORE
+  MARK_AS_SOLD_OUTSIDE_APP
+}
+
+enum CoinTransactionType {
+  TOPUP
+  RESERVE
+  RELEASE
+  REFUND
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      UserRole @default(USER)
+  createdAt DateTime @default(now())
+
+  wallet    CoinWallet?
+  orders    Order[]
+  brechos   Brecho[]
+}
+
+model Brecho {
+  id        String   @id @default(uuid())
+  name      String
+  ownerId   String
+  createdAt DateTime @default(now())
+
+  items     Item[]
+  wallet    CoinWallet?
+  owner     User     @relation(fields: [ownerId], references: [id])
+}
+
+model Item {
+  id        String     @id @default(uuid())
+  title     String
+  price     Int
+  status    ItemStatus @default(AVAILABLE)
+  brechoId  String
+  createdAt DateTime   @default(now())
+
+  brecho    Brecho @relation(fields: [brechoId], references: [id])
+  orders    Order[]
+  tags      Tag[]
+}
+
+model Tag {
+  id    String @id @default(uuid())
+  name  String @unique
+  items Item[]
+}
+
+model Order {
+  id        String      @id @default(uuid())
+  userId    String
+  itemId    String
+  status    OrderStatus @default(RESERVED)
+  total     Int
+  createdAt DateTime    @default(now())
+
+  rejectionReason RejectionReason?
+  rejectionAction RejectionAction?
+
+  user User @relation(fields: [userId], references: [id])
+  item Item @relation(fields: [itemId], references: [id])
+}
+
+model CoinWallet {
+  id        String  @id @default(uuid())
+  ownerId   String  @unique
+  balance   Int     @default(0)
+  locked    Int     @default(0)
+
+  transactions CoinTransaction[]
+
+  userId      String? @unique
+  brechoId    String? @unique
+  user        User?   @relation(fields: [userId], references: [id])
+  brecho      Brecho? @relation(fields: [brechoId], references: [id])
+}
+
+model CoinTransaction {
+  id        String               @id @default(uuid())
+  walletId  String
+  type      CoinTransactionType
+  amount    Int
+  createdAt DateTime @default(now())
+
+  wallet CoinWallet @relation(fields: [walletId], references: [id])
+}

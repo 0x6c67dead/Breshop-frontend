@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* Core palette - these generate bg-background, text-foreground etc */
+  /* Core palette */
   --color-background: #F4F0EB;
   --color-foreground: #16261A;
 
@@ -11,17 +11,25 @@
   --color-accent-orange: #FF5A36;
   --color-accent-lime: #DFFF00;
 
-  /* Typography (mapped via global layout) */
+  /* Typography */
   --font-serif: var(--font-playfair);
   --font-sans: var(--font-grotesk);
 
-  /* Shadows for brutalism */
-  --shadow-hard: 4px 4px 0px var(--color-tactile-dark);
-  --shadow-hard-lg: 8px 8px 0px var(--color-tactile-dark);
+  /* Shadows - softened for the new aesthetic */
+  --shadow-hard: 2px 2px 0px var(--color-tactile-dark);
+  --shadow-hard-lg: 4px 4px 0px var(--color-tactile-dark);
 
-  /* Radius overrides for extremismo */
-  --radius-sharp: 0px;
+  /* Radius overrides - more rounded for the new aesthetic */
+  --radius-sharp: 4px;
   --radius-pill: 9999px;
+  --radius-lg: 24px;
+  --radius-xl: 40px;
+
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 body {
@@ -29,14 +37,23 @@ body {
   color: var(--color-foreground);
   font-family: var(--font-sans), sans-serif;
   /* Grain texture subtle effect for tactile feel */
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.marquee-wrapper:hover .animate-marquee {
+  animation-play-state: paused;
 }
 
 button{
   cursor: pointer;
 }
 
-/* Custom Tactical Utils (Tailwind v4 allows direct @utility or standard classes) */
 .hard-shadow {
   box-shadow: var(--shadow-hard);
   border: 1.5px solid var(--color-tactile-dark);
