@@ -8,84 +8,61 @@ class AuthRepositoryImpl implements AuthRepository {
   final HttpClient client;
   final SecureStorage storage;
 
-  AuthRepositoryImpl({
-    required this.client,
-    required this.storage,
-  });
+  AuthRepositoryImpl({required this.client, required this.storage});
 
   @override
   Future<User> login(String email, String password) async {
     try {
-      final response = await client.postRequest('/auth/login', body: {
+      // A API retorna o user diretamente (sem wrapper nem token JWT)
+      final data = await client.postRequest('/api/auth/login', body: {
         'email': email,
         'password': password,
       });
 
-      final token = response['token'];
-      final userData = response['user'];
-
-      if (token != null) {
-        await storage.saveToken(token);
-      }
-
-      final user = User.fromJson(userData);
+      final user = User.fromJson(data);
       await storage.saveUser(jsonEncode(user.toJson()));
       await storage.saveUserRole(user.role.name);
 
       return user;
     } catch (e) {
-      // MOCK LOGIN PARA DESENVOLVIMENTO
-      // Se a API falhar ou não existir, permitimos a entrada com dados fake
-      print('Aviso: Usando Mock Login devido a erro: $e');
-      
-      UserRole mockRole = UserRole.user;
-      if (email.toLowerCase().contains('admin')) {
-        mockRole = UserRole.admin;
-      } else if (email.toLowerCase().contains('owner') || 
-                 email.toLowerCase().contains('brecho') || 
-                 email.toLowerCase().contains('lojista')) {
-        mockRole = UserRole.brechoOwner;
-      }
-
+      // Fallback mock para desenvolvimento (quando API não está rodando)
+      final role = _inferMockRole(email);
       final mockUser = User(
-        id: 'user_123',
-        name: mockRole == UserRole.admin 
-            ? 'Administrador Breshop' 
-            : mockRole == UserRole.brechoOwner 
-                ? 'Lojista Breshop' 
-                : 'Cliente de Teste',
+        id: 'mock_${role.name}',
+        name: switch (role) {
+          UserRole.admin => 'Administrador Breshop',
+          UserRole.brechoOwner => 'Lojista Teste',
+          UserRole.user => 'Cliente Teste',
+        },
         email: email,
-        role: mockRole,
-        balance: mockRole == UserRole.admin ? 5000.0 : 150.0,
+        role: role,
+        balance: role == UserRole.user ? 150 : 5000,
+        locked: 0,
       );
 
-      await storage.saveToken('mock_token_abc123');
       await storage.saveUser(jsonEncode(mockUser.toJson()));
       await storage.saveUserRole(mockUser.role.name);
-
       return mockUser;
-
     }
   }
 
   @override
   Future<User> register(String name, String email, String password) async {
     try {
-      final response = await client.postRequest('/auth/register', body: {
+      final data = await client.postRequest('/api/auth/register', body: {
         'name': name,
         'email': email,
         'password': password,
       });
-
-      final userData = response['user'];
-      return User.fromJson(userData);
+      return User.fromJson(data['user'] ?? data);
     } catch (e) {
-      print('Aviso: Usando Mock Register devido a erro: $e');
       return User(
-        id: 'user_new',
+        id: 'mock_new_${DateTime.now().millisecondsSinceEpoch}',
         name: name,
         email: email,
         role: UserRole.user,
+        balance: 0,
+        locked: 0,
       );
     }
   }
@@ -99,11 +76,19 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<User?> getCurrentUser() async {
     final userJson = await storage.getUser();
     if (userJson == null) return null;
-
     try {
-      return User.fromJson(jsonDecode(userJson));
-    } catch (e) {
+      return User.fromJson(jsonDecode(userJson) as Map<String, dynamic>);
+    } catch (_) {
       return null;
     }
+  }
+
+  UserRole _inferMockRole(String email) {
+    final lower = email.toLowerCase();
+    if (lower.contains('admin')) return UserRole.admin;
+    if (lower.contains('owner') || lower.contains('brecho') || lower.contains('lojista')) {
+      return UserRole.brechoOwner;
+    }
+    return UserRole.user;
   }
 }

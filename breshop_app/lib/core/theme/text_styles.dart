@@ -1,46 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'colors.dart';
 
 class BreshopTextStyles {
-  // Headlines (Serif Italic - estilo brand)
-  static const TextStyle displayLarge = TextStyle(
-    fontSize: 56,
-    fontWeight: FontWeight.w900,
-    fontStyle: FontStyle.italic,
-    fontFamily: 'Serif',
-    letterSpacing: -1.5,
-  );
+  static TextStyle get displayLarge => GoogleFonts.playfairDisplay(
+        fontSize: 56,
+        fontWeight: FontWeight.w900,
+        fontStyle: FontStyle.italic,
+        letterSpacing: -1.5,
+        color: BreshopColors.foreground,
+      );
 
-  static const TextStyle displayMedium = TextStyle(
-    fontSize: 44,
-    fontWeight: FontWeight.w900,
-    fontStyle: FontStyle.italic,
-    fontFamily: 'Serif',
-    letterSpacing: -1.2,
-  );
+  static TextStyle get displayMedium => GoogleFonts.playfairDisplay(
+        fontSize: 44,
+        fontWeight: FontWeight.w900,
+        fontStyle: FontStyle.italic,
+        letterSpacing: -1.2,
+        color: BreshopColors.foreground,
+      );
 
-  static const TextStyle titleLarge = TextStyle(
-    fontSize: 32,
-    fontWeight: FontWeight.w900,
-    fontStyle: FontStyle.italic,
-    fontFamily: 'Serif',
-  );
+  static TextStyle get titleLarge => GoogleFonts.playfairDisplay(
+        fontSize: 32,
+        fontWeight: FontWeight.w900,
+        fontStyle: FontStyle.italic,
+        color: BreshopColors.foreground,
+      );
 
-  // Body
-  static const TextStyle bodyLarge = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w400,
-    // fontFamily: 'SanFrancisco', // Default native look or custom if font added
-  );
+  static TextStyle get bodyLarge => GoogleFonts.spaceGrotesk(
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+        color: BreshopColors.foreground,
+      );
 
-  static const TextStyle bodyMedium = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-  );
+  static TextStyle get bodyMedium => GoogleFonts.spaceGrotesk(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: BreshopColors.foreground,
+      );
 
-  static const TextStyle labelLarge = TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w600,
-    fontFamily: 'Mono',
-    letterSpacing: 0.5,
-  );
+  static TextStyle get labelLarge => GoogleFonts.spaceGrotesk(
+        fontSize: 12,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.5,
+        color: BreshopColors.foreground,
+      );
+
+  static TextStyle get tagPill => GoogleFonts.spaceGrotesk(
+        fontSize: 11,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 0.8,
+        color: BreshopColors.foreground,
+      );
 }

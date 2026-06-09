@@ -3,25 +3,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'infrastructure/storage/local_storage.dart';
 import 'core/theme/theme.dart';
 import 'application/providers/routing_provider.dart';
+import 'application/providers/infrastructure_providers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  // Initialize local storage
+
   final localStorage = LocalStorage();
   await localStorage.init();
-  
+
   runApp(
     ProviderScope(
-      child: MyApp(localStorage: localStorage),
+      overrides: [
+        localStorageProvider.overrideWithValue(localStorage),
+      ],
+      child: const BreshopApp(),
     ),
   );
 }
 
-class MyApp extends ConsumerWidget {
-  final LocalStorage localStorage;
-
-  const MyApp({super.key, required this.localStorage});
+class BreshopApp extends ConsumerWidget {
+  const BreshopApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

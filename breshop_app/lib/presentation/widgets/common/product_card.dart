@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../../../core/theme/colors.dart';
-import '../../../domain/entities/product.dart';
+import '../../../domain/entities/item.dart';
+import 'item_image.dart';
 
 class ProductCard extends StatefulWidget {
-  final Product product;
+  final Item item;
   final VoidCallback? onTap;
   final VoidCallback? onFavorite;
   final bool isFavorited;
 
   const ProductCard({
     super.key,
-    required this.product,
+    required this.item,
     this.onTap,
     this.onFavorite,
     this.isFavorited = false,
@@ -51,6 +51,8 @@ class _ProductCardState extends State<ProductCard>
 
   @override
   Widget build(BuildContext context) {
+    final item = widget.item;
+
     return ScaleTransition(
       scale: _scale,
       child: GestureDetector(
@@ -62,65 +64,39 @@ class _ProductCardState extends State<ProductCard>
           decoration: BoxDecoration(
             color: BreshopColors.white,
             borderRadius: BorderRadius.circular(16),
-            boxShadow: [
+            border: Border.all(color: BreshopColors.foreground, width: 1.5),
+            boxShadow: const [
               BoxShadow(
-                color: BreshopColors.black.withAlpha(10),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
+                color: BreshopColors.foreground,
+                offset: Offset(2, 2),
+                blurRadius: 0,
               ),
             ],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Image
+              // Image placeholder area
               AspectRatio(
-                aspectRatio: 1.0, // Imagem quadrada para o grid
+                aspectRatio: 1.0,
                 child: Stack(
                   children: [
-                    ClipRRect(
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(16),
-                      ),
-                      child: widget.product.images.isNotEmpty
-                          ? CachedNetworkImage(
-                              imageUrl: widget.product.images.first,
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                              height: double.infinity,
-                              placeholder: (ctx, url) => Container(
-                                color: BreshopColors.grey100,
-                                child: const Center(
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                  ),
-                                ),
-                              ),
-                              errorWidget: (ctx, url, error) => Container(
-                                color: BreshopColors.grey100,
-                                child: const Icon(
-                                  Icons.image_not_supported_outlined,
-                                  color: BreshopColors.grey400,
-                                ),
-                              ),
-                            )
-                          : Container(
-                              color: BreshopColors.grey100,
-                              child: const Icon(
-                                Icons.checkroom_outlined,
-                                color: BreshopColors.grey400,
-                                size: 48,
-                              ),
-                            ),
-                    ),
-                    // Condition badge
-                    Positioned(
-                      top: 8,
-                      left: 8,
-                      child: _ConditionBadge(
-                        condition: widget.product.condition,
+                    Hero(
+                      tag: 'item-image-${item.id}',
+                      child: ItemImage(
+                        itemId: item.id,
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(14),
+                        ),
                       ),
                     ),
+                    // Status badge
+                    if (item.status != ItemStatus.available)
+                      Positioned(
+                        top: 8,
+                        left: 8,
+                        child: _StatusBadge(status: item.status),
+                      ),
                     // Favorite button
                     Positioned(
                       top: 4,
@@ -140,30 +116,61 @@ class _ProductCardState extends State<ProductCard>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.product.name,
+                      item.title,
                       style: const TextStyle(
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                         fontSize: 14,
-                        color: BreshopColors.grey900,
+                        color: BreshopColors.foreground,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      'Tam. ${widget.product.size}',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: BreshopColors.grey500,
+                    if (item.brecho != null) ...[
+                      const SizedBox(height: 2),
+                      Text(
+                        item.brecho!.name,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: BreshopColors.grey500,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
+                    ],
+                    if (item.tags.isNotEmpty) ...[
+                      const SizedBox(height: 4),
+                      Wrap(
+                        spacing: 4,
+                        children: item.tags.take(2).map((tag) {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: BreshopColors.accentLime,
+                              borderRadius: BorderRadius.circular(9999),
+                            ),
+                            child: Text(
+                              tag.name.toUpperCase(),
+                              style: const TextStyle(
+                                fontSize: 9,
+                                fontWeight: FontWeight.w700,
+                                color: BreshopColors.foreground,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
                     const SizedBox(height: 6),
                     Text(
-                      'R\$ ${widget.product.price.toStringAsFixed(2).replaceAll('.', ',')}',
+                      '${item.price} COINS',
                       style: const TextStyle(
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w900,
                         fontSize: 16,
-                        color: BreshopColors.black,
+                        color: BreshopColors.foreground,
                       ),
                     ),
                   ],
@@ -177,27 +184,21 @@ class _ProductCardState extends State<ProductCard>
   }
 }
 
-class _ConditionBadge extends StatelessWidget {
-  final ProductCondition condition;
+class _StatusBadge extends StatelessWidget {
+  final ItemStatus status;
 
-  const _ConditionBadge({required this.condition});
+  const _StatusBadge({required this.status});
 
   @override
   Widget build(BuildContext context) {
-    final label = switch (condition) {
-      ProductCondition.novo => 'NOVO',
-      ProductCondition.semiNovo => 'SEMI-NOVO',
-      ProductCondition.usado => 'USADO',
-    };
-
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: BreshopColors.black.withAlpha(180),
+        color: BreshopColors.foreground.withAlpha(200),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
-        label,
+        status.label.toUpperCase(),
         style: const TextStyle(
           color: BreshopColors.white,
           fontSize: 9,
@@ -231,7 +232,7 @@ class _FavoriteButton extends StatelessWidget {
         child: Icon(
           isFavorited ? Icons.favorite : Icons.favorite_border,
           size: 18,
-          color: isFavorited ? Colors.redAccent : BreshopColors.grey600,
+          color: isFavorited ? BreshopColors.accentOrange : BreshopColors.grey500,
         ),
       ),
     );

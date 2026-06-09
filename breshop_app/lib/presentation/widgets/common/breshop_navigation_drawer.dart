@@ -104,7 +104,7 @@ class BreshopNavigationDrawer extends ConsumerWidget {
                     const Icon(Icons.wallet, color: BreshopColors.accentLime, size: 18),
                     const SizedBox(width: 8),
                     Text(
-                      '${user.balance.toStringAsFixed(0)} Coins',
+                      '${user.balance} Coins',
                       style: const TextStyle(
                         color: BreshopColors.white,
                         fontWeight: FontWeight.bold,
@@ -154,16 +154,33 @@ class BreshopNavigationDrawer extends ConsumerWidget {
               context.push('/profile');
             },
           ),
-          _NavigationItem(
-            icon: Icons.shopping_bag_outlined,
-            title: 'Minhas Reservas',
-            onTap: () {
-              context.pop();
-              context.push('/reservations');
-            },
-          ),
+          if (!isOwner) ...[
+            _NavigationItem(
+              icon: Icons.favorite_border,
+              title: 'Favoritos',
+              onTap: () {
+                context.pop();
+                context.push('/favorites');
+              },
+            ),
+            _NavigationItem(
+              icon: Icons.shopping_bag_outlined,
+              title: 'Carrinho',
+              onTap: () {
+                context.pop();
+                context.push('/cart');
+              },
+            ),
+            _NavigationItem(
+              icon: Icons.receipt_long_outlined,
+              title: 'Minhas Reservas',
+              onTap: () {
+                context.pop();
+                context.push('/reservations');
+              },
+            ),
+          ],
 
-          
           if (isOwner) ...[
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
@@ -175,6 +192,14 @@ class BreshopNavigationDrawer extends ConsumerWidget {
               onTap: () {
                 context.pop();
                 context.push('/owner-dashboard');
+              },
+            ),
+            _NavigationItem(
+              icon: Icons.bar_chart_outlined,
+              title: 'Extrato',
+              onTap: () {
+                context.pop();
+                context.push('/extrato');
               },
             ),
           ],

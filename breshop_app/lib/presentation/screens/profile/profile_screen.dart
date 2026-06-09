@@ -2,41 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../application/providers/auth_provider.dart';
+import '../../../application/providers/wallet_provider.dart';
 import '../../../core/theme/colors.dart';
 import '../../../domain/entities/user.dart';
 
-class ProfileScreen extends ConsumerStatefulWidget {
+class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
   @override
-  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends ConsumerState<ProfileScreen> {
-  final List<Map<String, dynamic>> _mockTransactions = [
-    {'title': 'Bônus de Cadastro', 'date': '10/05/2026', 'amount': 50.0, 'type': 'in'},
-    {'title': 'Jaqueta Jeans Vintage', 'date': '15/05/2026', 'amount': -150.0, 'type': 'out'},
-  ];
-
-  void _addCoins() {
-    // Simular recarga de coins
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Coins recarregados com sucesso (Simulação de Pix)!'),
-        backgroundColor: BreshopColors.success,
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final authState = ref.watch(authProvider);
-    final user = authState.user;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(authProvider).user;
 
     if (user == null) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     return Scaffold(
@@ -61,19 +39,26 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // User Main Card
+            // Avatar card
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
                 color: BreshopColors.white,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: BreshopColors.grey200),
+                border: Border.all(color: BreshopColors.foreground, width: 1.5),
+                boxShadow: const [
+                  BoxShadow(
+                    color: BreshopColors.foreground,
+                    offset: Offset(3, 3),
+                    blurRadius: 0,
+                  ),
+                ],
               ),
               child: Column(
                 children: [
                   CircleAvatar(
                     radius: 40,
-                    backgroundColor: BreshopColors.black,
+                    backgroundColor: BreshopColors.foreground,
                     child: Text(
                       user.name.isNotEmpty ? user.name[0].toUpperCase() : 'U',
                       style: const TextStyle(
@@ -103,33 +88,31 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: BreshopColors.grey100,
-                      borderRadius: BorderRadius.circular(8),
+                      color: BreshopColors.accentLime,
+                      borderRadius: BorderRadius.circular(9999),
+                      border: Border.all(color: BreshopColors.foreground),
                     ),
                     child: Text(
-                      user.role == UserRole.admin
-                          ? 'Administrador'
-                          : user.role == UserRole.brechoOwner
-                              ? 'Dono de Brechó (Lojista)'
-                              : 'Cliente',
+                      user.role.label.toUpperCase(),
                       style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: BreshopColors.black,
-                        fontSize: 12,
+                        fontWeight: FontWeight.w900,
+                        color: BreshopColors.foreground,
+                        fontSize: 11,
+                        letterSpacing: 0.8,
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            
-            const SizedBox(height: 24),
 
-            // Wallet Section
+            const SizedBox(height: 20),
+
+            // Wallet card
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: BreshopColors.black,
+                color: BreshopColors.foreground,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
@@ -137,10 +120,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 children: [
                   const Row(
                     children: [
-                      Icon(Icons.account_balance_wallet_outlined, color: BreshopColors.accentLime, size: 20),
-                      const SizedBox(width: 8),
+                      Icon(
+                        Icons.account_balance_wallet_outlined,
+                        color: BreshopColors.accentLime,
+                        size: 20,
+                      ),
+                      SizedBox(width: 8),
                       Text(
-                        'SALDO ATUAL',
+                        'CARTEIRA',
                         style: TextStyle(
                           color: BreshopColors.grey400,
                           fontSize: 12,
@@ -151,22 +138,47 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  Text(
-                    '${user.balance.toStringAsFixed(0)} COINS',
-                    style: const TextStyle(
-                      color: BreshopColors.white,
-                      fontSize: 32,
-                      fontWeight: FontWeight.w900,
-                    ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Text(
+                        '${user.balance}',
+                        style: const TextStyle(
+                          color: BreshopColors.white,
+                          fontSize: 40,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      const Text(
+                        'COINS',
+                        style: TextStyle(
+                          color: BreshopColors.grey400,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
+                  if (user.locked > 0) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      '${user.locked} COINS bloqueados em reservas',
+                      style: const TextStyle(
+                        color: BreshopColors.grey500,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
                   const SizedBox(height: 24),
                   ElevatedButton(
-                    onPressed: _addCoins,
+                    onPressed: () => _handleTopup(context, ref, user),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: BreshopColors.accentLime,
-                      foregroundColor: BreshopColors.black,
+                      foregroundColor: BreshopColors.foreground,
                       minimumSize: const Size(double.infinity, 48),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      shape: const StadiumBorder(),
                     ),
                     child: const Text(
                       'ADICIONAR COINS (PIX)',
@@ -177,68 +189,120 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               ),
             ),
 
-            const SizedBox(height: 32),
+            const SizedBox(height: 20),
 
-            // Recent Transactions Title
-            const Text(
-              'Transações Recentes',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+            // Ações rápidas
+            if (user.role == UserRole.brechoOwner || user.role == UserRole.admin) ...[
+              _ActionTile(
+                icon: Icons.store_mall_directory_outlined,
+                title: 'Meu Brechó',
+                onTap: () => context.push('/owner-dashboard'),
               ),
+            ],
+            _ActionTile(
+              icon: Icons.shopping_bag_outlined,
+              title: 'Minhas Reservas',
+              onTap: () => context.push('/reservations'),
             ),
-            const SizedBox(height: 12),
+            if (user.role == UserRole.admin)
+              _ActionTile(
+                icon: Icons.admin_panel_settings_outlined,
+                title: 'Painel Admin',
+                onTap: () => context.push('/admin'),
+              ),
 
-            // Transactions List
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: _mockTransactions.length,
-              itemBuilder: (context, index) {
-                final tx = _mockTransactions[index];
-                final bool isIncome = tx['type'] == 'in';
+            const SizedBox(height: 20),
 
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  padding: const EdgeInsets.all(16),
-
-                  decoration: BoxDecoration(
-                    color: BreshopColors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: BreshopColors.grey200),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            tx['title'],
-                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            tx['date'],
-                            style: const TextStyle(color: BreshopColors.grey500, fontSize: 12),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        '${isIncome ? '+' : ''}${tx['amount'].toStringAsFixed(0)} C',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: isIncome ? BreshopColors.success : BreshopColors.error,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
+            OutlinedButton.icon(
+              onPressed: () => ref.read(authProvider.notifier).logout(),
+              icon: const Icon(Icons.logout, color: BreshopColors.error),
+              label: const Text(
+                'SAIR DA CONTA',
+                style: TextStyle(color: BreshopColors.error, fontWeight: FontWeight.w900),
+              ),
+              style: OutlinedButton.styleFrom(
+                side: const BorderSide(color: BreshopColors.error),
+                padding: const EdgeInsets.symmetric(vertical: 14),
+              ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _handleTopup(BuildContext context, WidgetRef ref, User user) {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        int amount = 100;
+        return AlertDialog(
+          title: const Text('Adicionar Coins'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('Selecione o valor a adicionar:'),
+              const SizedBox(height: 16),
+              Wrap(
+                spacing: 8,
+                children: [50, 100, 200, 500].map((v) {
+                  return OutlinedButton(
+                    onPressed: () => amount = v,
+                    child: Text('$v C'),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(onPressed: () => ctx.pop(), child: const Text('CANCELAR')),
+            ElevatedButton(
+              onPressed: () async {
+                ctx.pop();
+                await ref.read(walletProvider.notifier).topup(amount);
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('$amount Coins adicionados!'),
+                      backgroundColor: BreshopColors.success,
+                    ),
+                  );
+                }
+              },
+              child: const Text('CONFIRMAR'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _ActionTile extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final VoidCallback onTap;
+
+  const _ActionTile({
+    required this.icon,
+    required this.title,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: BreshopColors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: BreshopColors.grey200),
+      ),
+      child: ListTile(
+        leading: Icon(icon, color: BreshopColors.foreground),
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+        trailing: const Icon(Icons.chevron_right, color: BreshopColors.grey400),
+        onTap: onTap,
       ),
     );
   }

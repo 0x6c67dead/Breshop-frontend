@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'colors.dart';
 import 'text_styles.dart';
 
@@ -6,61 +7,52 @@ class BreshopTheme {
   static final ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
-    primaryColor: BreshopColors.black,
+    primaryColor: BreshopColors.foreground,
     scaffoldBackgroundColor: BreshopColors.background,
-    
+
     colorScheme: const ColorScheme.light(
-      primary: BreshopColors.black,
+      primary: BreshopColors.foreground,
       secondary: BreshopColors.accentLime,
       surface: BreshopColors.white,
       error: BreshopColors.error,
       tertiary: BreshopColors.grey700,
     ),
 
-    // App Bar
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       elevation: 0,
       backgroundColor: BreshopColors.background,
       foregroundColor: BreshopColors.foreground,
       surfaceTintColor: Colors.transparent,
-      titleTextStyle: TextStyle(
+      titleTextStyle: GoogleFonts.spaceGrotesk(
         color: BreshopColors.foreground,
         fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
     ),
 
-    // Buttons
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: BreshopColors.black,
+        backgroundColor: BreshopColors.foreground,
         foregroundColor: BreshopColors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        textStyle: const TextStyle(
-          fontWeight: FontWeight.bold,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+        shape: const StadiumBorder(),
+        textStyle: GoogleFonts.spaceGrotesk(
+          fontWeight: FontWeight.w700,
           fontSize: 14,
+          letterSpacing: 0.5,
         ),
       ),
     ),
 
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        foregroundColor: BreshopColors.black,
-        side: const BorderSide(
-          color: BreshopColors.black,
-          width: 2,
-        ),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        foregroundColor: BreshopColors.foreground,
+        side: const BorderSide(color: BreshopColors.foreground, width: 1.5),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+        shape: const StadiumBorder(),
       ),
     ),
 
-    // Text Fields
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: BreshopColors.white,
@@ -74,20 +66,13 @@ class BreshopTheme {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(
-          color: BreshopColors.black,
-          width: 2,
-        ),
+        borderSide: const BorderSide(color: BreshopColors.foreground, width: 2),
       ),
       hintStyle: const TextStyle(color: BreshopColors.grey400),
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 12,
-      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
     ),
 
-    // Text Styles
-    textTheme: const TextTheme(
+    textTheme: TextTheme(
       displayLarge: BreshopTextStyles.displayLarge,
       displayMedium: BreshopTextStyles.displayMedium,
       titleLarge: BreshopTextStyles.titleLarge,
@@ -96,10 +81,9 @@ class BreshopTheme {
       labelLarge: BreshopTextStyles.labelLarge,
     ),
 
-    // Snack Bar
     snackBarTheme: SnackBarThemeData(
-      backgroundColor: BreshopColors.grey900,
-      contentTextStyle: const TextStyle(
+      backgroundColor: BreshopColors.foreground,
+      contentTextStyle: GoogleFonts.spaceGrotesk(
         color: BreshopColors.white,
         fontSize: 14,
       ),
@@ -109,7 +93,40 @@ class BreshopTheme {
     ),
   );
 
-  static ThemeData get darkTheme {
-    return lightTheme; // Currently same as light, can be expanded
+  /// Replica do .hard-shadow do web (2px offset, borda sólida)
+  static BoxDecoration hardShadow({
+    Color background = BreshopColors.white,
+    BorderRadius? borderRadius,
+  }) {
+    return BoxDecoration(
+      color: background,
+      borderRadius: borderRadius ?? BorderRadius.circular(4),
+      border: Border.all(color: BreshopColors.foreground, width: 1.5),
+      boxShadow: const [
+        BoxShadow(
+          color: BreshopColors.foreground,
+          offset: Offset(2, 2),
+          blurRadius: 0,
+        ),
+      ],
+    );
+  }
+
+  static BoxDecoration hardShadowLg({
+    Color background = BreshopColors.white,
+    BorderRadius? borderRadius,
+  }) {
+    return BoxDecoration(
+      color: background,
+      borderRadius: borderRadius ?? BorderRadius.circular(4),
+      border: Border.all(color: BreshopColors.foreground, width: 2),
+      boxShadow: const [
+        BoxShadow(
+          color: BreshopColors.foreground,
+          offset: Offset(4, 4),
+          blurRadius: 0,
+        ),
+      ],
+    );
   }
 }

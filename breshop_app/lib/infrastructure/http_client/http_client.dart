@@ -69,7 +69,12 @@ class HttpClient extends http.BaseClient {
   // Custom helpers for JSON
   Future<Map<String, dynamic>> getRequest(String path) async {
     final response = await super.get(Uri.parse('$baseUrl$path'));
-    return _parseResponse(response);
+    return _parseObjectResponse(response);
+  }
+
+  Future<List<dynamic>> getListRequest(String path) async {
+    final response = await super.get(Uri.parse('$baseUrl$path'));
+    return _parseListResponse(response);
   }
 
   Future<Map<String, dynamic>> postRequest(
@@ -80,13 +85,34 @@ class HttpClient extends http.BaseClient {
       Uri.parse('$baseUrl$path'),
       body: jsonEncode(body),
     );
-    return _parseResponse(response);
+    return _parseObjectResponse(response);
   }
 
-  Map<String, dynamic> _parseResponse(http.Response response) {
+  Future<Map<String, dynamic>> deleteRequest(String path) async {
+    final response = await super.delete(Uri.parse('$baseUrl$path'));
+    return _parseObjectResponse(response);
+  }
+
+  List<dynamic> _parseListResponse(http.Response response) {
+    try {
+      if (response.body.isEmpty) return [];
+      final decoded = jsonDecode(response.body);
+      if (decoded is List) return decoded;
+      return [];
+    } catch (e) {
+      throw ApiException(
+        message: 'Failed to parse list response',
+        statusCode: response.statusCode,
+      );
+    }
+  }
+
+  Map<String, dynamic> _parseObjectResponse(http.Response response) {
     try {
       if (response.body.isEmpty) return {};
-      return jsonDecode(response.body);
+      final decoded = jsonDecode(response.body);
+      if (decoded is Map<String, dynamic>) return decoded;
+      return {};
     } catch (e) {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return {'status': 'success'};

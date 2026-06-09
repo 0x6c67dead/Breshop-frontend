@@ -103,10 +103,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                       const SizedBox(height: 16),
                       TextButton(
-                        onPressed: () {
-                          context.push('/register');
-                        },
+                        onPressed: () => context.push('/register'),
                         child: const Text('Ainda não tem conta? Cadastre-se'),
+                      ),
+                      TextButton(
+                        onPressed: () => context.push('/forgot-password'),
+                        child: const Text(
+                          'Esqueceu sua senha?',
+                          style: TextStyle(color: BreshopColors.grey500),
+                        ),
                       ),
                       const Spacer(),
                       

@@ -15,8 +15,7 @@ final localStorageProvider = Provider<LocalStorage>((ref) {
 final httpClientProvider = Provider<HttpClient>((ref) {
   return HttpClient(
     baseUrl: Constants.apiBaseUrl,
-    getToken: () {
-      return null; 
-    },
+    // A API atual não exige Bearer token — autenticação via userId nos requests.
+    getToken: () => null,
   );
 });
