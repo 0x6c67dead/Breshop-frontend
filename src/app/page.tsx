@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import ProductCard from "@/src/shared/components/feed/ProductCard";
-import { MOCK_PRODUCTS, MOCK_SHOPS } from "@/src/shared/mocks/data";
+import { MOCK_SHOPS } from "@/src/shared/mocks/data";
 import Image from "next/image";
 import Link from "next/link";
 import { useMarketplaceStore } from "@/src/shared/lib/store/marketplaceStore";
@@ -12,12 +12,8 @@ export default function Home() {
 
   useEffect(() => { fetchItems(); }, [fetchItems]);
 
-  // Merge: DB items give live status; mock gives imageUrl/brand/model/tags
-  const availableProducts = MOCK_PRODUCTS.filter((mock) => {
-    const dbItem = items.find((i) => i.id === mock.id);
-    // If DB item exists, use its status; otherwise trust mock status
-    return dbItem ? dbItem.status === "AVAILABLE" : mock.status === "AVAILABLE";
-  });
+  // Itens reais do banco, status AVAILABLE, com imageUrl já calculado pela API
+  const availableProducts = (items as any[]).filter((item) => item.status === "AVAILABLE");
   
   // Hero Carousel State
   const [heroIndex, setHeroIndex] = useState(0);
@@ -28,12 +24,18 @@ export default function Home() {
     "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?q=80&w=2000&auto=format&fit=crop"  // Detailed rack
   ];
 
-  // Shop Showcase State
+  // Shop Showcase State — agrupa itens reais por brechó
   const [shopIndex, setShopIndex] = useState(0);
-  const highlightedShops = MOCK_SHOPS.map(shop => ({
-    name: shop.name.toUpperCase(),
-    products: availableProducts.filter(p => p.shopId === shop.id)
-  }));
+  const brechoGroups = availableProducts.reduce((acc: Record<string, { name: string; products: any[] }>, item: any) => {
+    const id = item.brecho?.id ?? item.brechoId;
+    const name = item.brecho?.name ?? 'Brechó';
+    if (!acc[id]) acc[id] = { name: name.toUpperCase(), products: [] };
+    acc[id].products.push(item);
+    return acc;
+  }, {});
+  const highlightedShops = Object.values(brechoGroups).length > 0
+    ? Object.values(brechoGroups)
+    : MOCK_SHOPS.map(s => ({ name: s.name.toUpperCase(), products: [] }));
 
   useEffect(() => {
     const heroInterval = setInterval(() => {
@@ -128,18 +130,18 @@ export default function Home() {
                                 {(shop.products.length > 0 ? shop.products : availableProducts).slice(0, 3).map((product, i) => (
                                     <Link key={product.id} href={`/product/${product.id}`} className="flex flex-col gap-4 group">
                                         <div className={`relative aspect-[3/4] rounded-[24px] overflow-hidden border border-foreground/5 transition-all duration-500 group-hover:shadow-lg ${i === 1 ? 'md:scale-105 md:-translate-y-2' : ''}`}>
-                                            <Image 
+                                            <Image
                                                 src={product.imageUrl}
-                                                alt={product.brand}
+                                                alt={product.brand ?? product.title ?? ''}
                                                 fill
                                                 sizes="(max-width:768px) 100vw, 33vw"
                                                 className="object-cover transition-transform duration-700 group-hover:scale-110"
                                             />
                                         </div>
                                         <div className="flex flex-col items-center text-center">
-                                            <h3 className="font-serif font-black text-lg italic uppercase tracking-tighter leading-tight">{product.brand}</h3>
-                                            <p className="font-mono text-[9px] text-foreground/40 font-bold mt-1 uppercase tracking-widest">{product.model}</p>
-                                            <p className="font-serif font-black italic text-xl mt-1">C$ {product.price.toFixed(0)}</p>
+                                            <h3 className="font-serif font-black text-lg italic uppercase tracking-tighter leading-tight">{product.brand ?? product.title}</h3>
+                                            {product.model && <p className="font-mono text-[9px] text-foreground/40 font-bold mt-1 uppercase tracking-widest">{product.model}</p>}
+                                            <p className="font-serif font-black italic text-xl mt-1">C$ {Number(product.price).toFixed(0)}</p>
                                         </div>
                                     </Link>
                                 ))}
