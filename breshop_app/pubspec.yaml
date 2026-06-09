@@ -37,6 +37,12 @@ dependencies:
   # ===== ICONS =====
   lucide_icons: ^0.257.0                  # Icons tipo lucide-react
 
+  # ===== FONTS =====
+  google_fonts: ^6.2.1
+
+  # ===== LOADING =====
+  shimmer: ^3.0.0
+
   # ===== UTILITÁRIOS =====
   equatable: ^2.0.5                     # Igualdade de objetos
   uuid: ^4.0.0                          # Geração de UUIDs

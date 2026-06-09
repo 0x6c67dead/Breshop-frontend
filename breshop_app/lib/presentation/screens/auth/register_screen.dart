@@ -38,9 +38,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       final email = _emailController.text.trim();
       final password = _passwordController.text.trim();
       
-      // NOTA: Para fins de desenvolvimento local, a nossa implementação mock
-      // no auth_repository_impl irá capturar o erro de API e criar o mockUser.
-      ref.read(authProvider.notifier).login(email, password); // Loga após registrar
+      ref.read(authProvider.notifier).register(name, email, password);
     }
   }
 

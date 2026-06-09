@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class BreshopColors {
-  // Brand colors
-  static const Color background = Color(0xFFF4F0EB);  // Bege claro
-  static const Color foreground = Color(0xFF000000);  // Preto
-  static const Color accentLime = Color(0xFFCFFF00);  // Lime
+  static const Color background = Color(0xFFF4F0EB);
+  static const Color foreground = Color(0xFF16261A);
+  static const Color tactileLight = Color(0xFFF2EFEB);
+  static const Color accentOrange = Color(0xFFFF5A36);
+  static const Color accentLime = Color(0xFFDFFF00);
 
-  // Neutrals
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);
   static const Color grey50 = Color(0xFFFAFAFA);
@@ -20,7 +20,6 @@ class BreshopColors {
   static const Color grey800 = Color(0xFF1F2937);
   static const Color grey900 = Color(0xFF111827);
 
-  // States
   static const Color success = Color(0xFF10B981);
   static const Color error = Color(0xFFEF4444);
   static const Color warning = Color(0xFFF59E0B);
