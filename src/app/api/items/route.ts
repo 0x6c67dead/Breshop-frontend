@@ -1,6 +1,17 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/src/shared/lib/prisma';
 
+const FASHION_COUNT = 16;
+const BUCKET_BASE = `${process.env.SUPABASE_URL}/storage/v1/object/public/fashion`;
+
+function itemImageUrl(itemId: string): string {
+  let hash = 0;
+  for (let i = 0; i < itemId.length; i++) {
+    hash = (Math.imul(31, hash) + itemId.charCodeAt(i)) | 0;
+  }
+  return `${BUCKET_BASE}/${Math.abs(hash) % FASHION_COUNT}.jpg`;
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -64,7 +75,11 @@ export async function GET(request: Request) {
       skip: isNaN(skip) ? 0 : skip,
       take: isNaN(take) ? 20 : Math.min(take, 100),
     });
-    return NextResponse.json(items);
+    const withImages = items.map((item) => ({
+      ...item,
+      imageUrl: itemImageUrl(item.id),
+    }));
+    return NextResponse.json(withImages);
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Erro interno';
     return NextResponse.json({ error: message }, { status: 500 });
