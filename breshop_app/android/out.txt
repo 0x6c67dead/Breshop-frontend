@@ -1,0 +1,194 @@
+2026-06-14T21:48:55.596-0300 [INFO] [org.gradle.internal.nativeintegration.services.NativeServices] Initialized native services in: /home/yahto/.gradle/native
+2026-06-14T21:48:55.636-0300 [INFO] [org.gradle.internal.nativeintegration.services.NativeServices] Initialized jansi services in: /home/yahto/.gradle/native
+2026-06-14T21:48:55.657-0300 [LIFECYCLE] [org.gradle.launcher.cli.DebugLoggerWarningAction] 
+#############################################################################
+   WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
+
+   Debug level logging will leak security sensitive information!
+
+   For more details, please refer to https://docs.gradle.org/8.14/userguide/logging.html#sec:debug_security in the Gradle documentation.
+#############################################################################
+
+2026-06-14T21:48:55.745-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Adding IP addresses for network interface br-707be9f2ad21
+2026-06-14T21:48:55.745-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Is this a loopback interface? false
+2026-06-14T21:48:55.745-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Adding remote address /172.20.0.1
+2026-06-14T21:48:55.745-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Adding IP addresses for network interface br-6589d08621fe
+2026-06-14T21:48:55.745-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Is this a loopback interface? false
+2026-06-14T21:48:55.745-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Adding remote address /172.18.0.1
+2026-06-14T21:48:55.745-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Adding IP addresses for network interface docker0
+2026-06-14T21:48:55.745-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Is this a loopback interface? false
+2026-06-14T21:48:55.745-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Adding remote address /172.17.0.1
+2026-06-14T21:48:55.745-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Adding IP addresses for network interface ztfl6fwtgf
+2026-06-14T21:48:55.745-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Is this a loopback interface? false
+2026-06-14T21:48:55.745-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Adding remote address /fe80:0:0:0:b8fc:2bff:fe63:96cf%ztfl6fwtgf
+2026-06-14T21:48:55.745-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Adding remote address /10.15.26.3
+2026-06-14T21:48:55.745-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Adding IP addresses for network interface wlp0s20f3
+2026-06-14T21:48:55.745-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Is this a loopback interface? false
+2026-06-14T21:48:55.745-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Adding remote address /fe80:0:0:0:88cb:2aec:98f0:9ebf%wlp0s20f3
+2026-06-14T21:48:55.745-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Adding remote address /192.168.1.111
+2026-06-14T21:48:55.745-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Adding IP addresses for network interface lo
+2026-06-14T21:48:55.745-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Is this a loopback interface? true
+2026-06-14T21:48:55.745-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Adding loopback address /0:0:0:0:0:0:0:1%lo
+2026-06-14T21:48:55.745-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Adding loopback address /127.0.0.1
+2026-06-14T21:48:55.780-0300 [DEBUG] [org.gradle.cache.internal.DefaultCacheCoordinator] Creating new cache for metadata, path /home/yahto/.gradle/caches/8.14/jvms/metadata.bin, access org.gradle.cache.internal.DefaultCacheCoordinator@2b175c00
+2026-06-14T21:48:55.855-0300 [DEBUG] [org.gradle.launcher.daemon.client.DaemonClient] Executing build 1dff357a-d4ff-478a-9825-aca826c341aa in daemon client {pid=5751}
+2026-06-14T21:48:55.858-0300 [DEBUG] [org.gradle.cache.internal.DefaultFileLockManager] Waiting to acquire shared lock on daemon addresses registry.
+2026-06-14T21:48:55.860-0300 [DEBUG] [org.gradle.cache.internal.DefaultFileLockManager] Lock acquired on daemon addresses registry.
+2026-06-14T21:48:55.864-0300 [DEBUG] [org.gradle.cache.internal.DefaultFileLockManager] Releasing lock on daemon addresses registry.
+2026-06-14T21:48:55.866-0300 [INFO] [org.gradle.launcher.daemon.client.DefaultDaemonConnector] Found daemon DaemonInfo{pid=551786, address=[30b81828-3433-452a-a73a-456753a3aa07 port:42111, addresses:[/127.0.0.1]], state=Idle, lastBusy=1774633368572, context=DefaultDaemonContext[uid=d791e2c4-e4ac-4bea-918f-7f3cf34794e6,javaHome=/usr/lib/jvm/java-25-jdk,javaVersion=25,javaVendor=Oracle Corporation,daemonRegistryDir=/home/yahto/.gradle/daemon,pid=551786,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=4G,-XX:ReservedCodeCacheSize=512m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx8G,-Dfile.encoding=UTF-8,-Duser.country,-Duser.language=en,-Duser.variant]} however its context does not match the desired criteria.
+At least one daemon option is different.
+Wanted: DaemonRequestContext{jvmCriteria=/usr/lib/jvm/java-25-jdk (no JDK specified, using current Java home), daemonOpts=[-XX:MaxMetaspaceSize=4G, -XX:ReservedCodeCacheSize=512m, -XX:+HeapDumpOnOutOfMemoryError, -Xmx8G, -Dfile.encoding=UTF-8, -Duser.country=BR, -Duser.language=pt, -Duser.variant], applyInstrumentationAgent=true, nativeServicesMode=ENABLED, priority=NORMAL}
+Actual: DefaultDaemonContext[uid=d791e2c4-e4ac-4bea-918f-7f3cf34794e6,javaHome=/usr/lib/jvm/java-25-jdk,javaVersion=25,javaVendor=Oracle Corporation,daemonRegistryDir=/home/yahto/.gradle/daemon,pid=551786,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=4G,-XX:ReservedCodeCacheSize=512m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx8G,-Dfile.encoding=UTF-8,-Duser.country,-Duser.language=en,-Duser.variant]
+
+  Looking for a different daemon...
+2026-06-14T21:48:55.867-0300 [INFO] [org.gradle.launcher.daemon.client.DefaultDaemonConnector] Found daemon DaemonInfo{pid=554012, address=[0a1be290-9857-44f2-8c7c-40661f396b19 port:39817, addresses:[/127.0.0.1]], state=Idle, lastBusy=1774633445081, context=DefaultDaemonContext[uid=81b16c08-c2a9-49d1-960d-804b2799e49f,javaHome=/home/yahto/.vscode/extensions/redhat.java-1.53.0-linux-x64/jre/21.0.10-linux-x86_64,javaVersion=21,javaVendor=Eclipse Adoptium,daemonRegistryDir=/home/yahto/.gradle/daemon,pid=554012,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=4G,-XX:ReservedCodeCacheSize=512m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx8G,-Dfile.encoding=UTF-8,-Duser.country=BR,-Duser.language=pt,-Duser.variant]} however its context does not match the desired criteria.
+JVM is incompatible.
+Wanted: DaemonRequestContext{jvmCriteria=/usr/lib/jvm/java-25-jdk (no JDK specified, using current Java home), daemonOpts=[-XX:MaxMetaspaceSize=4G, -XX:ReservedCodeCacheSize=512m, -XX:+HeapDumpOnOutOfMemoryError, -Xmx8G, -Dfile.encoding=UTF-8, -Duser.country=BR, -Duser.language=pt, -Duser.variant], applyInstrumentationAgent=true, nativeServicesMode=ENABLED, priority=NORMAL}
+Actual: DefaultDaemonContext[uid=81b16c08-c2a9-49d1-960d-804b2799e49f,javaHome=/home/yahto/.vscode/extensions/redhat.java-1.53.0-linux-x64/jre/21.0.10-linux-x86_64,javaVersion=21,javaVendor=Eclipse Adoptium,daemonRegistryDir=/home/yahto/.gradle/daemon,pid=554012,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=4G,-XX:ReservedCodeCacheSize=512m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx8G,-Dfile.encoding=UTF-8,-Duser.country=BR,-Duser.language=pt,-Duser.variant]
+
+  Looking for a different daemon...
+2026-06-14T21:48:55.867-0300 [INFO] [org.gradle.launcher.daemon.client.DefaultDaemonConnector] Found daemon DaemonInfo{pid=5120, address=[396004cf-d1b2-4148-aabe-43d3a1e1b596 port:41247, addresses:[/127.0.0.1]], state=Idle, lastBusy=1781010084164, context=DefaultDaemonContext[uid=8bd59442-7349-438a-9126-94799c99d94c,javaHome=/usr/lib/jvm/java-17-openjdk,javaVersion=17,javaVendor=Arch Linux,daemonRegistryDir=/home/yahto/.gradle/daemon,pid=5120,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=4G,-XX:ReservedCodeCacheSize=512m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx8G,-Dfile.encoding=UTF-8,-Duser.country=BR,-Duser.language=pt,-Duser.variant]} however its context does not match the desired criteria.
+JVM is incompatible.
+Wanted: DaemonRequestContext{jvmCriteria=/usr/lib/jvm/java-25-jdk (no JDK specified, using current Java home), daemonOpts=[-XX:MaxMetaspaceSize=4G, -XX:ReservedCodeCacheSize=512m, -XX:+HeapDumpOnOutOfMemoryError, -Xmx8G, -Dfile.encoding=UTF-8, -Duser.country=BR, -Duser.language=pt, -Duser.variant], applyInstrumentationAgent=true, nativeServicesMode=ENABLED, priority=NORMAL}
+Actual: DefaultDaemonContext[uid=8bd59442-7349-438a-9126-94799c99d94c,javaHome=/usr/lib/jvm/java-17-openjdk,javaVersion=17,javaVendor=Arch Linux,daemonRegistryDir=/home/yahto/.gradle/daemon,pid=5120,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=4G,-XX:ReservedCodeCacheSize=512m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx8G,-Dfile.encoding=UTF-8,-Duser.country=BR,-Duser.language=pt,-Duser.variant]
+
+  Looking for a different daemon...
+2026-06-14T21:48:55.867-0300 [INFO] [org.gradle.launcher.daemon.client.DefaultDaemonConnector] Found daemon DaemonInfo{pid=4642, address=[8a3513fe-d607-4c13-afc2-b97617296ae2 port:46879, addresses:[/127.0.0.1]], state=Idle, lastBusy=1781484274176, context=DefaultDaemonContext[uid=b10af095-2f17-4f4a-9495-902f00a262ed,javaHome=/home/yahto/.antigravity/extensions/redhat.java-1.54.0-linux-x64/jre/21.0.10-linux-x86_64,javaVersion=21,javaVendor=Eclipse Adoptium,daemonRegistryDir=/home/yahto/.gradle/daemon,pid=4642,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=4G,-XX:ReservedCodeCacheSize=512m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx8G,-Dfile.encoding=UTF-8,-Duser.country=BR,-Duser.language=pt,-Duser.variant]} however its context does not match the desired criteria.
+JVM is incompatible.
+Wanted: DaemonRequestContext{jvmCriteria=/usr/lib/jvm/java-25-jdk (no JDK specified, using current Java home), daemonOpts=[-XX:MaxMetaspaceSize=4G, -XX:ReservedCodeCacheSize=512m, -XX:+HeapDumpOnOutOfMemoryError, -Xmx8G, -Dfile.encoding=UTF-8, -Duser.country=BR, -Duser.language=pt, -Duser.variant], applyInstrumentationAgent=true, nativeServicesMode=ENABLED, priority=NORMAL}
+Actual: DefaultDaemonContext[uid=b10af095-2f17-4f4a-9495-902f00a262ed,javaHome=/home/yahto/.antigravity/extensions/redhat.java-1.54.0-linux-x64/jre/21.0.10-linux-x86_64,javaVersion=21,javaVendor=Eclipse Adoptium,daemonRegistryDir=/home/yahto/.gradle/daemon,pid=4642,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=4G,-XX:ReservedCodeCacheSize=512m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx8G,-Dfile.encoding=UTF-8,-Duser.country=BR,-Duser.language=pt,-Duser.variant]
+
+  Looking for a different daemon...
+2026-06-14T21:48:55.868-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.TcpOutgoingConnector] Attempting to connect to [6177c700-9a86-4737-9569-5352ecafe457 port:34945, addresses:[/127.0.0.1]].
+2026-06-14T21:48:55.868-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.TcpOutgoingConnector] Trying to connect to address /127.0.0.1.
+2026-06-14T21:48:55.870-0300 [DEBUG] [org.gradle.internal.remote.internal.inet.TcpOutgoingConnector] Connected to address /127.0.0.1:34945.
+2026-06-14T21:48:55.878-0300 [DEBUG] [org.gradle.launcher.daemon.client.DaemonClient] Connected to daemon DaemonInfo{pid=4501, address=[6177c700-9a86-4737-9569-5352ecafe457 port:34945, addresses:[/127.0.0.1]], state=Idle, lastBusy=1781484498738, context=DefaultDaemonContext[uid=4f39a8c4-5171-4874-9076-fd7e02eba896,javaHome=/usr/lib/jvm/java-25-jdk,javaVersion=25,javaVendor=Oracle Corporation,daemonRegistryDir=/home/yahto/.gradle/daemon,pid=4501,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=4G,-XX:ReservedCodeCacheSize=512m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx8G,-Dfile.encoding=UTF-8,-Duser.country=BR,-Duser.language=pt,-Duser.variant]}. Dispatching request Build{id=1dff357a-d4ff-478a-9825-aca826c341aa, currentDir=/home/yahto/workspace/Breshop-frontend/breshop_app/android}.
+2026-06-14T21:48:55.878-0300 [DEBUG] [org.gradle.launcher.daemon.client.DaemonClientConnection] thread 3: dispatching class org.gradle.launcher.daemon.protocol.Build
+2026-06-14T21:48:55.888-0300 [DEBUG] [org.gradle.launcher.daemon.client.DaemonClient] Received result org.gradle.launcher.daemon.protocol.BuildStarted@178213b from daemon DaemonInfo{pid=4501, address=[6177c700-9a86-4737-9569-5352ecafe457 port:34945, addresses:[/127.0.0.1]], state=Idle, lastBusy=1781484498738, context=DefaultDaemonContext[uid=4f39a8c4-5171-4874-9076-fd7e02eba896,javaHome=/usr/lib/jvm/java-25-jdk,javaVersion=25,javaVendor=Oracle Corporation,daemonRegistryDir=/home/yahto/.gradle/daemon,pid=4501,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=4G,-XX:ReservedCodeCacheSize=512m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx8G,-Dfile.encoding=UTF-8,-Duser.country=BR,-Duser.language=pt,-Duser.variant]} (build should be starting).
+2026-06-14T21:48:55.888-0300 [INFO] [org.gradle.launcher.daemon.server.exec.LogToClient] The client will now receive all logging from the daemon (pid: 4501). The daemon log file: /home/yahto/.gradle/daemon/8.14/daemon-4501.out.log
+2026-06-14T21:48:55.888-0300 [INFO] [org.gradle.launcher.daemon.server.exec.LogAndCheckHealth] Starting 4th build in daemon [uptime: 4 mins 46.416 secs, performance: 99%, GC rate: 0.00/s, heap usage: 0% of 8 GiB, non-heap usage: 1% of 4 GiB]
+2026-06-14T21:48:55.889-0300 [DEBUG] [org.gradle.launcher.daemon.server.exec.ExecuteBuild] The daemon has started executing the build.
+2026-06-14T21:48:55.889-0300 [DEBUG] [org.gradle.launcher.daemon.server.exec.ExecuteBuild] Executing build with daemon context: DefaultDaemonContext[uid=4f39a8c4-5171-4874-9076-fd7e02eba896,javaHome=/usr/lib/jvm/java-25-jdk,javaVersion=25,javaVendor=Oracle Corporation,daemonRegistryDir=/home/yahto/.gradle/daemon,pid=4501,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=4G,-XX:ReservedCodeCacheSize=512m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx8G,-Dfile.encoding=UTF-8,-Duser.country=BR,-Duser.language=pt,-Duser.variant]
+2026-06-14T21:48:55.890-0300 [INFO] [org.gradle.internal.work.DefaultWorkerLeaseService] Using 8 worker leases.
+2026-06-14T21:48:55.891-0300 [DEBUG] [org.gradle.internal.resources.AbstractTrackedResourceLock] Daemon worker Thread 2: acquired lock on worker lease
+2026-06-14T21:48:55.891-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Run build' started
+2026-06-14T21:48:55.895-0300 [DEBUG] [org.gradle.cache.internal.DefaultCacheCoordinator] Creating new cache for fileHashes, path /home/yahto/workspace/Breshop-frontend/breshop_app/android/.gradle/8.14/fileHashes/fileHashes.bin, access org.gradle.cache.internal.DefaultCacheCoordinator@4946c230
+2026-06-14T21:48:55.895-0300 [DEBUG] [org.gradle.cache.internal.LockOnDemandCrossProcessCacheAccess] Acquiring file lock for file hash cache (/home/yahto/workspace/Breshop-frontend/breshop_app/android/.gradle/8.14/fileHashes)
+2026-06-14T21:48:55.895-0300 [DEBUG] [org.gradle.cache.internal.DefaultFileLockManager] Waiting to acquire exclusive lock on file hash cache (/home/yahto/workspace/Breshop-frontend/breshop_app/android/.gradle/8.14/fileHashes).
+2026-06-14T21:48:55.895-0300 [DEBUG] [org.gradle.cache.internal.DefaultFileLockManager] Lock acquired on file hash cache (/home/yahto/workspace/Breshop-frontend/breshop_app/android/.gradle/8.14/fileHashes).
+2026-06-14T21:48:55.896-0300 [DEBUG] [org.gradle.cache.internal.DefaultCacheCoordinator] Creating new cache for outputFiles, path /home/yahto/workspace/Breshop-frontend/breshop_app/android/.gradle/buildOutputCleanup/outputFiles.bin, access org.gradle.cache.internal.DefaultCacheCoordinator@63dd7fc3
+2026-06-14T21:48:55.896-0300 [DEBUG] [org.gradle.cache.internal.LockOnDemandCrossProcessCacheAccess] Acquiring file lock for Build Output Cleanup Cache (/home/yahto/workspace/Breshop-frontend/breshop_app/android/.gradle/buildOutputCleanup)
+2026-06-14T21:48:55.896-0300 [DEBUG] [org.gradle.cache.internal.DefaultFileLockManager] Waiting to acquire exclusive lock on Build Output Cleanup Cache (/home/yahto/workspace/Breshop-frontend/breshop_app/android/.gradle/buildOutputCleanup).
+2026-06-14T21:48:55.896-0300 [DEBUG] [org.gradle.cache.internal.DefaultFileLockManager] Lock acquired on Build Output Cleanup Cache (/home/yahto/workspace/Breshop-frontend/breshop_app/android/.gradle/buildOutputCleanup).
+2026-06-14T21:48:55.897-0300 [DEBUG] [org.gradle.cache.internal.DefaultCacheCoordinator] Creating new cache for resourceHashesCache, path /home/yahto/workspace/Breshop-frontend/breshop_app/android/.gradle/8.14/fileHashes/resourceHashesCache.bin, access org.gradle.cache.internal.DefaultCacheCoordinator@4946c230
+2026-06-14T21:48:55.898-0300 [INFO] [org.gradle.internal.watch.registry.impl.WatchableHierarchies] Now considering [/home/yahto/workspace/Breshop-frontend/breshop_app/android] as hierarchies to watch
+2026-06-14T21:48:55.898-0300 [INFO] [org.gradle.tooling.internal.provider.FileSystemWatchingBuildActionRunner] Watching the file system is configured to be enabled if available
+2026-06-14T21:48:55.898-0300 [DEBUG] [org.gradle.tooling.internal.provider.FileSystemWatchingBuildActionRunner] Watching the file system computed to be enabled if available
+2026-06-14T21:48:55.898-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Build started for file system watching' started
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected proc: /proc from proc (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected sysfs: /sys from sys (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected devtmpfs: /dev from dev (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected tmpfs: /run from run (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected efivarfs: /sys/firmware/efi/efivars from efivarfs (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected devpts: /dev/pts from devpts (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected ext4: / from /dev/nvme0n1p3 (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected securityfs: /sys/kernel/security from securityfs (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected tmpfs: /dev/shm from tmpfs (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected cgroup2: /sys/fs/cgroup from cgroup2 (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected pstore: /sys/fs/pstore from pstore (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected bpf: /sys/fs/bpf from bpf (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected autofs: /proc/sys/fs/binfmt_misc from systemd-1 (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected tmpfs: /run/credentials/systemd-journald.service from none (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected fusectl: /sys/fs/fuse/connections from fusectl (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected configfs: /sys/kernel/config from configfs (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected debugfs: /sys/kernel/debug from debugfs (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected hugetlbfs: /dev/hugepages from hugetlbfs (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected tracefs: /sys/kernel/tracing from tracefs (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected mqueue: /dev/mqueue from mqueue (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected binfmt_misc: /proc/sys/fs/binfmt_misc from binfmt_misc (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected tmpfs: /tmp from tmpfs (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected ext4: /home from /dev/nvme0n1p2 (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected vfat: /boot/efi from /dev/nvme0n1p4 (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected tmpfs: /run/user/1000 from tmpfs (remote: false)
+2026-06-14T21:48:55.899-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected fuse.portal: /run/user/1000/doc from portal (remote: false)
+2026-06-14T21:48:55.900-0300 [DEBUG] [org.gradle.internal.watch.vfs.impl.DefaultWatchableFileSystemDetector] Detected fuse.gvfsd-fuse: /run/user/1000/gvfs from gvfsd-fuse (remote: false)
+2026-06-14T21:48:55.900-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Completing Build operation 'Build started for file system watching'
+2026-06-14T21:48:55.900-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Build started for file system watching' completed
+2026-06-14T21:48:55.900-0300 [INFO] [org.gradle.tooling.internal.provider.FileSystemWatchingBuildActionRunner] File system watching is active
+2026-06-14T21:48:55.900-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Load build' started
+2026-06-14T21:48:55.900-0300 [DEBUG] [org.gradle.initialization.properties.DefaultProjectPropertiesLoader] Found env project properties: []
+2026-06-14T21:48:55.900-0300 [DEBUG] [org.gradle.initialization.properties.DefaultProjectPropertiesLoader] Found system project properties: []
+2026-06-14T21:48:55.901-0300 [DEBUG] [org.gradle.initialization.DefaultSettingsLoader] Loading build definition for build: ':'
+2026-06-14T21:48:55.901-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Evaluate settings' started
+2026-06-14T21:48:55.902-0300 [INFO] [org.gradle.internal.buildevents.BuildLogger] Starting Build
+2026-06-14T21:48:55.902-0300 [DEBUG] [org.gradle.internal.buildevents.BuildLogger] Gradle user home: /home/yahto/.gradle
+2026-06-14T21:48:55.902-0300 [DEBUG] [org.gradle.internal.buildevents.BuildLogger] Current dir: /home/yahto/workspace/Breshop-frontend/breshop_app/android
+2026-06-14T21:48:55.902-0300 [DEBUG] [org.gradle.internal.buildevents.BuildLogger] Settings file: null
+2026-06-14T21:48:55.902-0300 [DEBUG] [org.gradle.internal.buildevents.BuildLogger] Build file: null
+2026-06-14T21:48:55.904-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Apply settings file 'settings.gradle.kts' to settings 'android'' started
+2026-06-14T21:48:55.904-0300 [DEBUG] [org.gradle.kotlin.dsl.provider.KotlinScriptPlugin] Applying Kotlin script to settings 'android'
+2026-06-14T21:48:55.911-0300 [DEBUG] [org.gradle.api.internal.runtimeshaded.RuntimeShadedJarFactory] Using Gradle runtime shaded JAR file: /home/yahto/.gradle/caches/8.14/generated-gradle-jars/gradle-api-8.14.jar
+2026-06-14T21:48:55.913-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Identifying work' started
+2026-06-14T21:48:55.915-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Completing Build operation 'Identifying work'
+2026-06-14T21:48:55.915-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Identifying work' completed
+2026-06-14T21:48:55.915-0300 [DEBUG] [org.gradle.internal.vfs.impl.AbstractVirtualFileSystem] Invalidating VFS paths: [/home/yahto/.gradle/caches/8.14/kotlin-dsl/scripts/1d3798c021bfe3313ffee4bbefdd9d38-43c5fc3f-d3d5-4beb-8d5d-766aaae1ff44]
+2026-06-14T21:48:55.915-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Snapshot inputs and outputs before executing Kotlin DSL script compilation (Settings/TopLevel/stage1)' started
+2026-06-14T21:48:55.916-0300 [DEBUG] [org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep] Implementation for Kotlin DSL script compilation (Settings/TopLevel/stage1): org.gradle.kotlin.dsl.provider.StandardKotlinScriptEvaluator$KotlinScriptCompilationAndInstrumentation@fa83017b3e35e3f153b54a37ae344110
+2026-06-14T21:48:55.916-0300 [DEBUG] [org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep] Additional implementations for Kotlin DSL script compilation (Settings/TopLevel/stage1): []
+2026-06-14T21:48:55.916-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Completing Build operation 'Snapshot inputs and outputs before executing Kotlin DSL script compilation (Settings/TopLevel/stage1)'
+2026-06-14T21:48:55.916-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Snapshot inputs and outputs before executing Kotlin DSL script compilation (Settings/TopLevel/stage1)' completed
+2026-06-14T21:48:55.916-0300 [INFO] [org.gradle.internal.execution.steps.AbstractResolveCachingStateStep] Caching disabled for Kotlin DSL script compilation (Settings/TopLevel/stage1) because:
+  Build cache is disabled
+2026-06-14T21:48:55.916-0300 [DEBUG] [org.gradle.internal.vfs.impl.AbstractVirtualFileSystem] Invalidating VFS paths: [/home/yahto/.gradle/caches/8.14/kotlin-dsl/scripts/1d3798c021bfe3313ffee4bbefdd9d38-43c5fc3f-d3d5-4beb-8d5d-766aaae1ff44/instrumented/classes, /home/yahto/.gradle/caches/8.14/kotlin-dsl/scripts/1d3798c021bfe3313ffee4bbefdd9d38-43c5fc3f-d3d5-4beb-8d5d-766aaae1ff44/reports/gradle-intercepted-methods.report]
+2026-06-14T21:48:55.917-0300 [DEBUG] [org.gradle.internal.execution.steps.PreCreateOutputParentsStep] Ensuring directory exists for property instrumentedOutput at /home/yahto/.gradle/caches/8.14/kotlin-dsl/scripts/1d3798c021bfe3313ffee4bbefdd9d38-43c5fc3f-d3d5-4beb-8d5d-766aaae1ff44/instrumented/classes
+2026-06-14T21:48:55.917-0300 [DEBUG] [org.gradle.internal.execution.steps.PreCreateOutputParentsStep] Ensuring parent directory exists for property propertyUpgradeReportOutput at /home/yahto/.gradle/caches/8.14/kotlin-dsl/scripts/1d3798c021bfe3313ffee4bbefdd9d38-43c5fc3f-d3d5-4beb-8d5d-766aaae1ff44/reports/gradle-intercepted-methods.report
+2026-06-14T21:48:55.917-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Executing Kotlin DSL script compilation (Settings/TopLevel/stage1)' started
+2026-06-14T21:48:55.917-0300 [DEBUG] [org.gradle.kotlin.dsl.execution.Interpreter] Compiling Settings/TopLevel/stage1 from settings file '/home/yahto/workspace/Breshop-frontend/breshop_app/android/settings.gradle.kts'
+2026-06-14T21:48:55.919-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Compile script settings.gradle.kts (CLASSPATH)' started
+2026-06-14T21:48:55.923-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Completing Build operation 'Compile script settings.gradle.kts (CLASSPATH)'
+2026-06-14T21:48:55.923-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Compile script settings.gradle.kts (CLASSPATH)' completed
+2026-06-14T21:48:55.924-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Completing Build operation 'Executing Kotlin DSL script compilation (Settings/TopLevel/stage1)'
+2026-06-14T21:48:55.924-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Executing Kotlin DSL script compilation (Settings/TopLevel/stage1)' completed
+2026-06-14T21:48:55.924-0300 [DEBUG] [org.gradle.internal.vfs.impl.AbstractVirtualFileSystem] Invalidating VFS paths: [/home/yahto/.gradle/caches/8.14/kotlin-dsl/scripts/1d3798c021bfe3313ffee4bbefdd9d38-43c5fc3f-d3d5-4beb-8d5d-766aaae1ff44/instrumented/classes, /home/yahto/.gradle/caches/8.14/kotlin-dsl/scripts/1d3798c021bfe3313ffee4bbefdd9d38-43c5fc3f-d3d5-4beb-8d5d-766aaae1ff44/reports/gradle-intercepted-methods.report]
+2026-06-14T21:48:55.924-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Snapshot outputs after executing Kotlin DSL script compilation (Settings/TopLevel/stage1)' started
+2026-06-14T21:48:55.925-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Completing Build operation 'Snapshot outputs after executing Kotlin DSL script compilation (Settings/TopLevel/stage1)'
+2026-06-14T21:48:55.925-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Snapshot outputs after executing Kotlin DSL script compilation (Settings/TopLevel/stage1)' completed
+2026-06-14T21:48:55.925-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Completing Build operation 'Apply settings file 'settings.gradle.kts' to settings 'android''
+2026-06-14T21:48:55.925-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Apply settings file 'settings.gradle.kts' to settings 'android'' completed
+2026-06-14T21:48:55.925-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Completing Build operation 'Evaluate settings'
+2026-06-14T21:48:55.925-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Evaluate settings' completed
+2026-06-14T21:48:55.925-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Completing Build operation 'Load build'
+2026-06-14T21:48:55.925-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Load build' completed
+2026-06-14T21:48:55.926-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Finish root build tree' started
+2026-06-14T21:48:55.927-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Completing Build operation 'Finish root build tree'
+2026-06-14T21:48:55.927-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Finish root build tree' completed
+2026-06-14T21:48:55.929-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Build finished for file system watching' started
+2026-06-14T21:48:55.929-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Completing Build operation 'Build finished for file system watching'
+2026-06-14T21:48:55.929-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Build finished for file system watching' completed
+2026-06-14T21:48:55.930-0300 [DEBUG] [org.gradle.cache.internal.LockOnDemandCrossProcessCacheAccess] Releasing file lock for Build Output Cleanup Cache (/home/yahto/workspace/Breshop-frontend/breshop_app/android/.gradle/buildOutputCleanup)
+2026-06-14T21:48:55.930-0300 [DEBUG] [org.gradle.cache.internal.DefaultFileLockManager] Releasing lock on Build Output Cleanup Cache (/home/yahto/workspace/Breshop-frontend/breshop_app/android/.gradle/buildOutputCleanup).
+2026-06-14T21:48:55.931-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Completing Build operation 'Run build'
+2026-06-14T21:48:55.931-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Run build' completed
+2026-06-14T21:48:55.931-0300 [DEBUG] [org.gradle.internal.resources.AbstractTrackedResourceLock] Daemon worker Thread 2: released lock on worker lease
+2026-06-14T21:48:55.934-0300 [DEBUG] [org.gradle.deployment.internal.DefaultDeploymentRegistry] Stopping 0 deployment handles
+2026-06-14T21:48:55.934-0300 [DEBUG] [org.gradle.deployment.internal.DefaultDeploymentRegistry] Stopped deployment handles
+2026-06-14T21:48:55.935-0300 [DEBUG] [org.gradle.cache.internal.LockOnDemandCrossProcessCacheAccess] Releasing file lock for file hash cache (/home/yahto/workspace/Breshop-frontend/breshop_app/android/.gradle/8.14/fileHashes)
+2026-06-14T21:48:55.935-0300 [DEBUG] [org.gradle.cache.internal.DefaultFileLockManager] Releasing lock on file hash cache (/home/yahto/workspace/Breshop-frontend/breshop_app/android/.gradle/8.14/fileHashes).
+2026-06-14T21:48:55.935-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Deleting unused version-specific caches in /home/yahto/workspace/Breshop-frontend/breshop_app/android/.gradle' started
+2026-06-14T21:48:55.935-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Completing Build operation 'Deleting unused version-specific caches in /home/yahto/workspace/Breshop-frontend/breshop_app/android/.gradle'
+2026-06-14T21:48:55.936-0300 [DEBUG] [org.gradle.internal.operations.DefaultBuildOperationRunner] Build operation 'Deleting unused version-specific caches in /home/yahto/workspace/Breshop-frontend/breshop_app/android/.gradle' completed
+2026-06-14T21:48:55.940-0300 [DEBUG] [org.gradle.launcher.daemon.server.exec.ExecuteBuild] The daemon has finished executing the build.
+2026-06-14T21:48:55.991-0300 [DEBUG] [org.gradle.launcher.daemon.client.DaemonClientConnection] thread 3: dispatching class org.gradle.launcher.daemon.protocol.CloseInput
+2026-06-14T21:48:56.006-0300 [DEBUG] [org.gradle.launcher.daemon.client.DaemonClient] Received result Success[value=org.gradle.launcher.exec.BuildActionResult@1b2c4efb] from daemon DaemonInfo{pid=4501, address=[6177c700-9a86-4737-9569-5352ecafe457 port:34945, addresses:[/127.0.0.1]], state=Idle, lastBusy=1781484498738, context=DefaultDaemonContext[uid=4f39a8c4-5171-4874-9076-fd7e02eba896,javaHome=/usr/lib/jvm/java-25-jdk,javaVersion=25,javaVendor=Oracle Corporation,daemonRegistryDir=/home/yahto/.gradle/daemon,pid=4501,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=4G,-XX:ReservedCodeCacheSize=512m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx8G,-Dfile.encoding=UTF-8,-Duser.country=BR,-Duser.language=pt,-Duser.variant]} (build should be done).
+2026-06-14T21:48:56.006-0300 [DEBUG] [org.gradle.launcher.daemon.client.DaemonClientConnection] thread 3: dispatching class org.gradle.launcher.daemon.protocol.Finished
+2026-06-14T21:48:56.006-0300 [DEBUG] [org.gradle.launcher.daemon.client.DaemonClientConnection] thread 3: connection stop
+2026-06-14T21:48:56.009-0300 [DEBUG] [org.gradle.cache.internal.DefaultCacheCoordinator] Cache cache directory jvms (/home/yahto/.gradle/caches/8.14/jvms) was closed 0 times.
+2026-06-14T21:48:56.009-0300 [LIFECYCLE] [org.gradle.launcher.cli.DebugLoggerWarningAction] 
+#############################################################################
+   WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
+
+   Debug level logging will leak security sensitive information!
+
+   For more details, please refer to https://docs.gradle.org/8.14/userguide/logging.html#sec:debug_security in the Gradle documentation.
+#############################################################################
+
