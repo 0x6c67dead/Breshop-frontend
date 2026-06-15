@@ -12,16 +12,7 @@ export async function POST(request: Request) {
 
     const user = await prisma.user.findUnique({ where: { email } });
 
-    console.log(`[LOGIN API] Attempt for email: "${email}". User found: ${!!user}`);
-    if (user) {
-      console.log(`[LOGIN API] Input password: "${password}" (length: ${password?.length})`);
-      console.log(`[LOGIN API] Db password hash: "${user.password}" (length: ${user.password?.length})`);
-      const match = bcrypt.compareSync(password, user.password);
-      console.log(`[LOGIN API] Password match result: ${match}`);
-      if (!match) {
-        return NextResponse.json({ error: 'Credenciais inválidas' }, { status: 401 });
-      }
-    } else {
+    if (!user || !bcrypt.compareSync(password, user.password)) {
       return NextResponse.json({ error: 'Credenciais inválidas' }, { status: 401 });
     }
 
