@@ -59,7 +59,10 @@ async function main() {
 
   const allUsers = [admin, ...owners, ...users];
   for (const u of allUsers) {
-    await prisma.coinWallet.create({ data: { ownerId: u.id, userId: u.id, balance: 1000, locked: 0 } });
+    const wallet = await prisma.coinWallet.create({ data: { ownerId: u.id, userId: u.id, balance: 1000, locked: 0 } });
+    await prisma.coinTransaction.create({
+      data: { walletId: wallet.id, type: "TOPUP", amount: 1000 }
+    });
   }
   const brechoIds = ["shop-1", "shop-2", "shop-3", "shop-4", "shop-5"];
   for (const bId of brechoIds) {
