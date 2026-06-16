@@ -36,6 +36,7 @@ export default function Footer() {
                             <Link 
                                 key={link.id} 
                                 href={link.href}
+                                prefetch={link.functional}
                                 onClick={(e) => {
                                     if (!link.functional) {
                                         e.preventDefault();

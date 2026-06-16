@@ -1,0 +1,46 @@
+# Dependencies (rebuilt inside Docker)
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Next.js build output (rebuilt inside Docker)
+.next
+out
+
+# Environment files — NEVER bake secrets into images
+.env
+.env.*
+*.pem
+
+# Mobile app — not deployed in the web container
+breshop_app
+
+# Version control
+.git
+.gitignore
+
+# Dev tooling / IDE
+.agent
+.claude
+.vscode
+.idea
+*.tsbuildinfo
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Documentation
+*.md
+*.docx
+ACORDO_PARCERIA_BRESHOP.*
+CHECKLIST_SETUP_INICIAL.*
+EXEMPLOS_CONVERSAO_CODIGO.*
+PLANO_MIGRACAO_FLUTTER.*
+RESUMO_EXECUTIVO_MIGRACAO.*
+INICIO_AQUI.*
+scratch
+
+# Coverage / test artifacts
+coverage

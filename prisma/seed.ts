@@ -1,10 +1,17 @@
-import { PrismaClient, UserRole, ItemStatus } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import bcrypt from "bcryptjs";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const adapter = new PrismaPg({ connectionString: process.env.DIRECT_URL ?? process.env.DATABASE_URL! });
+import { Pool } from "pg";
+
+const connectionString = process.env.DIRECT_URL ?? process.env.DATABASE_URL!
+const pool = new Pool({ 
+  connectionString,
+  ssl: { rejectUnauthorized: false }
+})
+const adapter = new PrismaPg(pool)
 const prisma = new PrismaClient({ adapter });
 
 const HASH = (pw: string) => bcrypt.hashSync(pw, 10);
@@ -21,21 +28,21 @@ async function main() {
   console.log("👤 Criando usuários...");
 
   const admin = await prisma.user.create({
-    data: { id: "usr-admin", name: "Admin Breshop", email: "admin@breshop.com", password: HASH("admin123"), role: UserRole.ADMIN },
+    data: { id: "usr-admin", name: "Admin Breshop", email: "admin@breshop.com", password: HASH("admin123"), role: "ADMIN" },
   });
 
   const owners = await Promise.all([
-    prisma.user.create({ data: { id: "usr-owner-1", name: "Carlos Curador", email: "carlos@acervo90s.com", password: HASH("owner123"), role: UserRole.BRECHO_OWNER } }),
-    prisma.user.create({ data: { id: "usr-owner-2", name: "Lucia Solar", email: "lucia@garimpossolar.com", password: HASH("owner123"), role: UserRole.BRECHO_OWNER } }),
-    prisma.user.create({ data: { id: "usr-owner-3", name: "Felix Urbano", email: "felix@reliquiaurbana.com", password: HASH("owner123"), role: UserRole.BRECHO_OWNER } }),
-    prisma.user.create({ data: { id: "usr-owner-4", name: "Ana Vintage", email: "ana@vintagecarioca.com", password: HASH("owner123"), role: UserRole.BRECHO_OWNER } }),
-    prisma.user.create({ data: { id: "usr-owner-5", name: "Pedro Retrô", email: "pedro@atelierretro.com", password: HASH("owner123"), role: UserRole.BRECHO_OWNER } }),
+    prisma.user.create({ data: { id: "usr-owner-1", name: "Carlos Curador", email: "carlos@acervo90s.com", password: HASH("owner123"), role: "BRECHO_OWNER" } }),
+    prisma.user.create({ data: { id: "usr-owner-2", name: "Lucia Solar", email: "lucia@garimpossolar.com", password: HASH("owner123"), role: "BRECHO_OWNER" } }),
+    prisma.user.create({ data: { id: "usr-owner-3", name: "Felix Urbano", email: "felix@reliquiaurbana.com", password: HASH("owner123"), role: "BRECHO_OWNER" } }),
+    prisma.user.create({ data: { id: "usr-owner-4", name: "Ana Vintage", email: "ana@vintagecarioca.com", password: HASH("owner123"), role: "BRECHO_OWNER" } }),
+    prisma.user.create({ data: { id: "usr-owner-5", name: "Pedro Retrô", email: "pedro@atelierretro.com", password: HASH("owner123"), role: "BRECHO_OWNER" } }),
   ]);
 
   const users = await Promise.all([
-    prisma.user.create({ data: { id: "usr-user-1", name: "Clara Vintage", email: "clara@gmail.com", password: HASH("user123"), role: UserRole.USER } }),
-    prisma.user.create({ data: { id: "usr-user-2", name: "João Silva", email: "joao@gmail.com", password: HASH("user123"), role: UserRole.USER } }),
-    prisma.user.create({ data: { id: "usr-user-3", name: "Maria Oliveira", email: "maria@gmail.com", password: HASH("user123"), role: UserRole.USER } }),
+    prisma.user.create({ data: { id: "usr-user-1", name: "Clara Vintage", email: "clara@gmail.com", password: HASH("user123"), role: "USER" } }),
+    prisma.user.create({ data: { id: "usr-user-2", name: "João Silva", email: "joao@gmail.com", password: HASH("user123"), role: "USER" } }),
+    prisma.user.create({ data: { id: "usr-user-3", name: "Maria Oliveira", email: "maria@gmail.com", password: HASH("user123"), role: "USER" } }),
   ]);
 
   console.log("🏪 Criando brechós...");
@@ -52,7 +59,10 @@ async function main() {
 
   const allUsers = [admin, ...owners, ...users];
   for (const u of allUsers) {
-    await prisma.coinWallet.create({ data: { ownerId: u.id, userId: u.id, balance: 1000, locked: 0 } });
+    const wallet = await prisma.coinWallet.create({ data: { ownerId: u.id, userId: u.id, balance: 1000, locked: 0 } });
+    await prisma.coinTransaction.create({
+      data: { walletId: wallet.id, type: "TOPUP", amount: 1000 }
+    });
   }
   const brechoIds = ["shop-1", "shop-2", "shop-3", "shop-4", "shop-5"];
   for (const bId of brechoIds) {
@@ -125,7 +135,7 @@ async function main() {
 
   for (const item of items) {
     await prisma.item.create({
-      data: { id: item.id, title: item.title, price: item.price, brechoId: item.brechoId, status: ItemStatus.AVAILABLE },
+      data: { id: item.id, title: item.title, price: item.price, brechoId: item.brechoId, status: "AVAILABLE" },
     });
   }
 
